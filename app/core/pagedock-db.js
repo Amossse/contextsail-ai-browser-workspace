@@ -183,7 +183,8 @@
     const activeItems = items.filter(item => !item.archivedAt);
     return {
       id: String(board.id || makeId("board")),
-      name: String(board.name || ui("未命名白板")).trim().slice(0, 80) || ui("未命名白板"),
+      // Keep the system inbox identity stable across owner, import, and bridge writes.
+      name: board.id === INBOX_ID ? ui("收件箱") : String(board.name || ui("未命名白板")).trim().slice(0, 80) || ui("未命名白板"),
       createdAt: Number(board.createdAt) || now,
       updatedAt: Number(board.updatedAt) || now,
       revision: Math.max(0, Number(board.revision) || 0),
@@ -396,18 +397,19 @@
     const readDone = transactionDone(readTransaction);
     const existing = await requestResult(readTransaction.objectStore(BOARD_STORE).get(INBOX_ID));
     await readDone;
-    if (existing) return INBOX_ID;
+    if (existing?.name === ui("收件箱")) return INBOX_ID;
     const writeTransaction = database.transaction(BOARD_STORE, "readwrite");
     const writeDone = transactionDone(writeTransaction);
     const now = Date.now();
     writeTransaction.objectStore(BOARD_STORE).put({
+      ...existing,
       id: INBOX_ID,
       name: ui("收件箱"),
-      createdAt: now,
-      updatedAt: now,
-      itemCount: 0,
-      preview: ui("右键或粘贴内容到这里"),
-      viewport: { zoom: 1, scrollLeft: 0, scrollTop: 0 }
+      createdAt: existing?.createdAt || now,
+      updatedAt: existing?.updatedAt || now,
+      itemCount: existing?.itemCount || 0,
+      preview: existing?.preview || ui("右键或粘贴内容到这里"),
+      viewport: existing?.viewport || { zoom: 1, scrollLeft: 0, scrollTop: 0 }
     });
     await writeDone;
     return INBOX_ID;
@@ -440,7 +442,7 @@
       ? items
       : items.filter(item => !item.archivedAt);
     visibleItems.sort((left, right) => left.z - right.z || left.createdAt - right.createdAt);
-    return { ...board, items: visibleItems };
+    return { ...board, name: boardId === INBOX_ID ? ui("收件箱") : board.name, items: visibleItems };
   }
   async function createBoard(name = ui("新白板")) {
     const board = normalizedBoard({ id: makeId("board"), name }, []);

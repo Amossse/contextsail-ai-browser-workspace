@@ -71,8 +71,6 @@ function aiRuntimeCommand(runtime = aiRuntime) {
 }
 
 function updateAiRuntimeCopy() {
-  document.getElementById("heroAiName").textContent = "AI";
-  document.getElementById("journeyAiName").textContent = "AI";
   document.getElementById("askSelectionWithCodex").textContent = ui("交给 AI");
   document.getElementById("codexLauncherRuntimeName").textContent = ui("AI 助手");
   document.getElementById("codexChatRuntimeName").textContent = ui("AI 助手");

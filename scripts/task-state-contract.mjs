@@ -15,8 +15,6 @@ assert.match(html, /id="healthCheckDialog"[\s\S]{0,900}id="aiRuntimeSelect"[\s\S
 assert.doesNotMatch(html, /id="aiRuntimeMenu"/, "the runtime switch must not compete with primary toolbar actions");
 assert.match(board, /const transientMenus = \[addMenuEl, exportMenuEl, homeMoreMenuEl, selectionMoreMenuEl\]/, "all visible toolbar menus must share mutual exclusion and outside-click dismissal");
 assert.match(board, /document\.addEventListener\("pointerdown"[\s\S]{0,220}transientMenus\.forEach\(menu => \{ menu\.open = false; \}\);\s*\}, true\);/, "outside-click dismissal must run in capture phase so card event handlers cannot block it");
-assert.match(html, /\.hero h1\s*\{[^}]*white-space:\s*nowrap/, "the desktop home headline must keep one intentional line");
-assert.match(html, /@media \(max-width: 414px\)[\s\S]{0,180}\.hero h1\s*\{[^}]*white-space:\s*normal/, "the home headline must remain responsive on narrow mobile screens");
 assert.match(board, /AI_RUNTIME_STORAGE_KEY\s*=\s*"__pagedock_ai_runtime_v1__"/, "the selected runtime must have one global storage key");
 assert.match(board, /chrome\.storage\.local\.set\(\{ \[AI_RUNTIME_STORAGE_KEY\]: aiRuntime \}\)/, "the selected runtime must persist in extension storage");
 assert.match(board, /const taskMode = [^;]*aiRuntime === "agy"[\s\S]{0,120}"conversation"[\s\S]{0,120}"coding"/, "ordinary AGY questions must choose conversation mode while Claude can use coding mode");

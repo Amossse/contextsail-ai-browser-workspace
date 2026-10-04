@@ -17,6 +17,16 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) an
 - Make English the concise primary README, retain a complete Chinese README, and reduce local AI setup to loading the extension plus one installer command
 - Detect the unpacked Chrome or Edge extension ID automatically during macOS setup, with the explicit ID retained only as a recovery path
 
+## [2.24.6] - 2026-10-05
+
+### Changed
+
+- Simplify the home page by removing its introduction, quick capture, onboarding steps, and duplicate Inbox card; move Open Inbox and New Board into the top-right toolbar
+
+### Fixed
+
+- Keep the system Inbox name fixed and read-only, including existing renamed Inboxes, without changing their contents
+
 ## [2.24.5] - 2026-08-31
 
 ### Fixed

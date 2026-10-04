@@ -177,15 +177,6 @@ function wireEvents() {
   document.getElementById("homeButton").addEventListener("click", () => renderHome());
   document.getElementById("backBoards").addEventListener("click", () => renderHome());
   document.getElementById("newBoard").addEventListener("click", openCreateBoardDialog);
-  document.getElementById("journeyCapture").addEventListener("click", () => {
-    console.info("[pagedock-onboarding] quick capture selected");
-    quickTextEl.focus();
-    quickTextEl.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
-  document.getElementById("journeyCreateBoard").addEventListener("click", () => {
-    console.info("[pagedock-onboarding] first board selected");
-    openCreateBoardDialog();
-  });
   document.getElementById("cancelNewBoard").addEventListener("click", () => newBoardDialogEl.close());
   newBoardDialogEl.addEventListener("click", closeDialogFromBackdrop);
   pageDialogEl.addEventListener("click", closeDialogFromBackdrop);
@@ -223,55 +214,6 @@ function wireEvents() {
   pageUrlEl.addEventListener("input", () => pageUrlEl.setCustomValidity(""));
   document.getElementById("openInbox").addEventListener("click", () => openBoard(db.INBOX_ID));
   homeSearchEl.addEventListener("input", scheduleHomeFilter);
-  document.getElementById("quickAdd").addEventListener("click", async () => {
-    const text = quickTextEl.value.trim();
-    if (!text) return;
-    const button = document.getElementById("quickAdd");
-    const firstRun = document.body.dataset.onboarding === "first-run";
-    button.disabled = true;
-    button.dataset.state = "loading";
-    button.textContent = ui("保存中…");
-    try {
-      const savedItem = await db.addItem(db.INBOX_ID, { type: /^https?:\/\/\S+$/i.test(text) ? "link" : "text", text, src: /^https?:\/\//i.test(text) ? text : "" });
-      quickTextEl.value = "";
-      await finishHomeCapture([savedItem], firstRun, ui("已保存到收件箱"));
-    } catch (error) {
-      setStatus(error?.message || ui("内容未能保存到收件箱"), true);
-    } finally {
-      button.disabled = false;
-      button.dataset.state = "default";
-      button.textContent = firstRun ? ui("开始收集") : ui("存入收件箱");
-    }
-  });
-  quickTextEl.addEventListener("keydown", event => {
-    if (event.key !== "Enter" || event.shiftKey || event.isComposing || event.keyCode === 229) return;
-    event.preventDefault();
-    document.getElementById("quickAdd").click();
-  });
-  quickTextEl.addEventListener("paste", event => {
-    const imageFiles = [...(event.clipboardData?.items || [])]
-      .filter(item => item.type.startsWith("image/"))
-      .map(item => item.getAsFile())
-      .filter(Boolean);
-    if (!imageFiles.length) return;
-    event.preventDefault();
-    captureHomeImages(imageFiles);
-  });
-  quickCaptureWrapEl.addEventListener("dragover", event => {
-    if (![...(event.dataTransfer?.items || [])].some(item => item.type.startsWith("image/"))) return;
-    event.preventDefault();
-    quickCaptureWrapEl.dataset.dragging = "true";
-  });
-  quickCaptureWrapEl.addEventListener("dragleave", event => {
-    if (!quickCaptureWrapEl.contains(event.relatedTarget)) delete quickCaptureWrapEl.dataset.dragging;
-  });
-  quickCaptureWrapEl.addEventListener("drop", event => {
-    delete quickCaptureWrapEl.dataset.dragging;
-    const imageFiles = [...(event.dataTransfer?.files || [])].filter(file => file.type.startsWith("image/"));
-    if (!imageFiles.length) return;
-    event.preventDefault();
-    captureHomeImages(imageFiles);
-  });
   document.getElementById("emptyAddText").addEventListener("click", () => {
     console.info("[pagedock-onboarding] empty board text selected", { boardId: currentBoard?.id });
     addTextItem("", insertionPoint(), true);
@@ -446,7 +388,7 @@ function wireEvents() {
   importInputEl.addEventListener("change", importSelectedFile);
   boardNameEl.addEventListener("input", scheduleSave);
   boardNameEl.addEventListener("change", async () => {
-    if (!currentBoard) return;
+    if (!currentBoard || currentBoard.id === db.INBOX_ID) return;
     document.title = ui("{0} · 拾作", boardNameEl.value || ui("未命名白板"));
     await saveBoardNow();
     notifyDataChanged([currentBoard.id], "rename-board");

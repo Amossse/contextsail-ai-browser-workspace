@@ -563,6 +563,7 @@ async function openBoard(boardId, updateUrl = true) {
   if (updateUrl) history.pushState({}, "", `${location.pathname}?board=${encodeURIComponent(board.id)}`);
   document.title = ui("{0} · 拾作", board.name);
   boardNameEl.value = board.name;
+  boardNameEl.readOnly = board.id === db.INBOX_ID;
   renderAllItems();
   setZoom(board.viewport?.zoom || 1, false);
   resetHistory();

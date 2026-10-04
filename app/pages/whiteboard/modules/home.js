@@ -123,13 +123,9 @@ function createSearchResult(result) {
 async function applyHomeFilter() {
   const query = homeSearchEl.value.trim().toLocaleLowerCase();
   const requestId = ++homeSearchRequest;
-  const inbox = homeBoards.find(board => board.id === db.INBOX_ID);
   const regularBoards = homeBoards.filter(board => board.id !== db.INBOX_ID);
-  inboxListEl.replaceChildren();
   boardListEl.replaceChildren();
   recentListEl.replaceChildren();
-  inboxLibraryEl.hidden = Boolean(query);
-  if (!query && inbox) inboxListEl.appendChild(createBoardCard(inbox));
   const boards = regularBoards.filter(board => !query
     || `${board.name} ${board.preview}`.toLocaleLowerCase().includes(query));
   boardLibraryEl.hidden = !boards.length;
@@ -194,56 +190,9 @@ async function renderHome(updateUrl = true) {
   const [boards, recent, templates] = await Promise.all([db.listBoards(), db.recentItems(16), db.listTemplates()]);
   homeBoards = boards;
   homeRecent = recent;
-  const inbox = homeBoards.find(board => board.id === db.INBOX_ID);
-  const isFirstRun = homeBoards.every(board => !Number(board.itemCount))
-    && !Number(inbox?.itemCount)
-    && !homeRecent.length;
-  homeJourneyEl.hidden = !isFirstRun;
-  document.body.dataset.onboarding = isFirstRun ? "first-run" : "established";
-  document.getElementById("quickAdd").textContent = isFirstRun ? ui("开始收集") : ui("存入收件箱");
-  quickTextEl.placeholder = isFirstRun ? ui("粘贴一段资料，或保存网页链接…") : ui("快速收集文字或链接…");
   boardCountEl.textContent = ui("{0} 个白板", homeBoards.filter(board => board.id !== db.INBOX_ID).length);
-  inboxCountEl.textContent = ui("{0} 项", inbox?.itemCount || 0);
   updateWorkflowTemplateEntry(templates.length);
   applyHomeFilter();
-}
-
-async function finishHomeCapture(savedItems, firstRun, successMessage) {
-  notifyDataChanged([db.INBOX_ID], "quick-add");
-  if (firstRun && savedItems[0]?.id) {
-    console.info("[pagedock-onboarding] first content captured", { itemId: savedItems[0].id, count: savedItems.length });
-    await focusExternalActivity({ boardId: db.INBOX_ID, cardId: savedItems[0].id });
-    setStatus(ui("内容已保存到收件箱。下一步：点击上方“交给 AI”"), false, "success", 6500);
-    return;
-  }
-  await renderHome(false);
-  setStatus(successMessage, false, "success");
-}
-
-async function captureHomeImages(files) {
-  const images = [...files].filter(file => file?.type?.startsWith("image/"));
-  if (!images.length) return false;
-  const firstRun = document.body.dataset.onboarding === "first-run";
-  const button = document.getElementById("quickAdd");
-  quickCaptureWrapEl.dataset.loading = "true";
-  button.disabled = true;
-  button.textContent = ui("导入中…");
-  try {
-    const savedItems = [];
-    for (const file of images) {
-      const src = await readFileAsDataUrl(file);
-      savedItems.push(await db.addItem(db.INBOX_ID, { type: "image", src, alt: file.name }));
-    }
-    await finishHomeCapture(savedItems, firstRun, images.length > 1 ? ui("已保存 {0} 张图片", images.length) : ui("图片已保存到收件箱"));
-  } catch (error) {
-    setStatus(error?.message || ui("图片未能保存到收件箱"), true);
-  } finally {
-    delete quickCaptureWrapEl.dataset.loading;
-    delete quickCaptureWrapEl.dataset.dragging;
-    button.disabled = false;
-    button.textContent = firstRun ? ui("开始收集") : ui("存入收件箱");
-  }
-  return true;
 }
 
 function openCreateBoardDialog() {

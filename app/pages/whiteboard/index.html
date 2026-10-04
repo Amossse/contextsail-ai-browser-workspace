@@ -80,6 +80,8 @@
       </details>
     </div>
     <div id="homeToolbar" class="toolbar spacer">
+      <button class="button" id="openInbox" type="button">打开收件箱</button>
+      <button class="button primary" id="newBoard" type="button">新建白板</button>
       <details class="menu" id="homeMoreMenu">
         <summary class="button">更多 ▾</summary>
         <div class="menu-panel">
@@ -97,40 +99,8 @@
 
   <main id="homeView">
     <div class="home-shell">
-      <section class="hero">
-        <div><h1>把网页资料，整理成有依据的答案</h1><p>收集读到的材料，让 <span id="heroAiName">AI</span> 帮你总结或对比。材料和回答保存在一起，随时回来继续问。</p></div>
-        <div class="hero-actions">
-          <button class="button" id="openInbox" type="button">打开收件箱</button>
-          <button class="button" id="newBoard" type="button">新建白板</button>
-        </div>
-      </section>
       <section class="search-row">
         <div class="search-box"><input id="homeSearch" type="search" aria-label="搜索所有白板、卡片和来源" placeholder="搜索所有白板、卡片和来源…" /></div>
-        <div class="quick-capture-wrap">
-          <div class="quick-capture-intro"><strong>先放入一段想弄明白的资料</strong><span>粘贴文字或链接，也可以拖入图片。先收集，提问时再连接 Codex。</span></div>
-          <div class="quick-capture"><textarea id="quickText" rows="2" aria-label="要收集的资料" aria-describedby="quickCaptureHint" placeholder="粘贴一段资料，或保存网页链接…"></textarea><span class="sr-only" id="quickCaptureHint">按回车开始收集，按 Shift 加回车换行。链接只保存地址；需要正文时，请在原网页使用拾作收集。</span><button class="button primary" id="quickAdd" type="button">开始收集</button></div>
-        </div>
-      </section>
-      <section class="home-journey" id="homeJourney" aria-label="拾作的三个步骤" hidden>
-        <article class="journey-step">
-          <div class="journey-step-head"><span class="journey-number">1</span><strong>收集材料</strong></div>
-          <p>在网页中收集正文或选区，保留来源</p>
-          <button class="journey-action" id="journeyCapture" type="button">快速记一条</button>
-        </article>
-        <article class="journey-step">
-          <div class="journey-step-head"><span class="journey-number">2</span><strong>选中材料问 <span id="journeyAiName">AI</span></strong></div>
-          <p>例如：这三篇文章有哪些共识和分歧？</p>
-          <button class="journey-action" id="journeyCreateBoard" type="button">创建第一块白板</button>
-        </article>
-        <article class="journey-step">
-          <div class="journey-step-head"><span class="journey-number">3</span><strong>留下答案，继续追问</strong></div>
-          <p>回答自动保存，材料就在旁边，方便回看原文</p>
-          <span class="journey-outcome">无需重新整理上下文</span>
-        </article>
-      </section>
-      <section class="home-content-library" id="inboxLibrary">
-        <div class="section-heading"><h2>收件箱</h2><span id="inboxCount"></span></div>
-        <div class="board-grid" id="inboxList"></div>
       </section>
       <section class="home-content-library" id="boardLibrary">
         <div class="section-heading"><h2>白板</h2><span id="boardCount"></span></div>

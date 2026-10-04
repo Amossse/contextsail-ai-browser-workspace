@@ -1,6 +1,6 @@
 {
   "name": "shizuo",
-  "version": "2.24.5",
+  "version": "2.24.6",
   "description": "Collect web research, ask Codex about it, and keep answers beside their sources for follow-up questions.",
   "type": "module",
   "keywords": [
