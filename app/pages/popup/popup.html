@@ -171,9 +171,46 @@
       font-size: var(--text-xs);
     }
     #status:empty { display: none; }
-    .language-setting { display: flex; justify-content: space-between; gap: 8px; margin-top: 12px; font-size: 12px; }
-    .language-setting select { max-width: 130px; font: inherit; }
-    #languageNotice { font-size: 12px; line-height: 1.5; margin-top: 6px; }
+    .language-setting {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      margin-top: var(--space-2xs);
+      padding: var(--space-xs) var(--space-3xs) 0;
+      border-top: 1px solid var(--color-rule);
+      color: var(--color-muted);
+      font-size: var(--text-xs);
+    }
+    .language-select-wrap { position: relative; flex: 0 0 auto; }
+    .language-setting select {
+      display: block;
+      width: 7.5rem;
+      min-height: 2rem;
+      padding: 0 1.75rem 0 var(--space-2xs);
+      appearance: none;
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-sm);
+      color: var(--color-ink-2);
+      background: var(--color-surface);
+      font: 500 var(--text-xs)/1.4 var(--font-body);
+      cursor: pointer;
+      transition: border-color var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+    }
+    .language-select-wrap svg {
+      position: absolute;
+      right: var(--space-2xs);
+      top: 50%;
+      width: 0.75rem;
+      height: 0.75rem;
+      color: var(--color-muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .language-setting select:hover { border-color: var(--color-rule-strong); background: var(--color-paper-2); }
+    .language-setting select:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+    #languageNotice { color: var(--color-muted); font-size: var(--text-xs); line-height: 1.5; margin: var(--space-2xs) var(--space-3xs) 0; }
+    #languageNotice:empty { display: none; }
     #status.error { color: var(--color-danger); }
     @media (hover: hover) and (pointer: fine) {
       #savePage:hover,
@@ -215,7 +252,7 @@
   </div>
   <button id="openWorkspace" type="button">打开ContextSail</button>
   <div id="status" role="status" aria-live="polite"></div>
-  <label class="language-setting">Language / 语言 <select data-language-select aria-label="Language / 语言"><option value="en">English</option><option value="zh-CN">简体中文</option></select></label>
+  <label class="language-setting"><span>Language / 语言</span><span class="language-select-wrap"><select data-language-select aria-label="Language / 语言"><option value="en">English</option><option value="zh-CN">简体中文</option></select><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.25 6 7.75l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /></svg></span></label>
   <div id="languageNotice" role="status" aria-live="polite"></div>
   <script src="../../core/i18n-en.js"></script>
   <script src="../../core/i18n-en-extended.js"></script>

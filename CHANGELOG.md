@@ -4,6 +4,12 @@ All notable changes to **ContextSail** are documented here.
 
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [2.25.1] - 2026-10-05
+
+### Fixed
+
+- Integrate the popup language selector into a quiet footer with aligned spacing, theme-matched typography, a custom chevron, and visible keyboard focus
+
 ## [2.25.0] - 2026-10-05
 
 ### Changed
