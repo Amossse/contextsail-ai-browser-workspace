@@ -4,6 +4,14 @@ All notable changes to **ContextSail** are documented here.
 
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [2.25.2] - 2026-10-05
+
+### Fixed
+
+- Complete English/Chinese coverage for Native Host progress and errors, browser collaboration, session labels, and locale-aware date/time formatting
+- Recognize both languages when restoring workflow planning and presenting capacity, connection, and timeout errors
+- Make README.md entirely English and add regression checks for static attributes, collaboration pages, native feedback, and documentation
+
 ## [2.25.1] - 2026-10-05
 
 ### Fixed

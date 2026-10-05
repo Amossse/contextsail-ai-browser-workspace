@@ -14,7 +14,7 @@ const MIN_SPLIT_RATIO = 20;
 const MAX_SPLIT_RATIO = 80;
 
 function setStatus(msg) {
-  statusEl.textContent = `${new Date().toLocaleTimeString()} · ${msg}`;
+  statusEl.textContent = `${new Date().toLocaleTimeString(ShizuoI18n.language)} · ${msg}`;
 }
 function setStat(text) {
   statEl.textContent = text;

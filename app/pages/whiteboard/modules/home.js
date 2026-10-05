@@ -240,9 +240,9 @@ async function createBridgeShare() {
     const expiresAt = new Date(Number(response.expiresAt) || Date.now() + 10 * 60_000);
     try {
       await copyTaskAnswer(response.collaborationUrl);
-      setBridgeShareDialogStatus(ui("协作链接已复制，将于 {0} 过期", expiresAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })));
+      setBridgeShareDialogStatus(ui("协作链接已复制，将于 {0} 过期", expiresAt.toLocaleTimeString(ShizuoI18n.language, { hour: "2-digit", minute: "2-digit" })));
     } catch {
-      setBridgeShareDialogStatus(ui("邀请已生成，将于 {0} 过期，请手动复制", expiresAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })));
+      setBridgeShareDialogStatus(ui("邀请已生成，将于 {0} 过期，请手动复制", expiresAt.toLocaleTimeString(ShizuoI18n.language, { hour: "2-digit", minute: "2-digit" })));
     }
     console.info("[shizuo-bridge] one-time invite ready", { expiresAt: expiresAt.getTime() });
   } catch (error) {

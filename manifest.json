@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "ContextSail",
   "short_name": "ContextSail",
-  "version": "2.25.1",
+  "version": "2.25.2",
   "minimum_chrome_version": "116",
   "description": "Local-first AI browser workspace. Clip web pages, organize sources on a canvas, and ask Codex or Claude Code with context.",
   "author": "ContextSail Contributors",

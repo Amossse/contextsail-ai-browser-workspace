@@ -1,6 +1,17 @@
+import { existsSync, readFileSync } from "node:fs";
+import { runInNewContext } from "node:vm";
+
+// Reuse the extension dictionary; the installer copies these two trusted assets.
+const dictionaryScope = {};
+for (const name of ["i18n-en.js", "i18n-en-extended.js"]) {
+  const source = new URL(`../app/core/${name}`, import.meta.url);
+  runInNewContext(readFileSync(existsSync(source) ? source : new URL(`./${name}`, import.meta.url), "utf8"), dictionaryScope);
+}
+const dictionaryJSON = JSON.stringify(dictionaryScope.ShizuoEnglish).replaceAll("<", "\\u003c");
+
 function pageShell(title, body, script, nonce) {
   return `<!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -70,13 +81,47 @@ function pageShell(title, body, script, nonce) {
     @media (max-width:720px) { header { height:auto; min-height:68px; flex-wrap:wrap; padding:10px 12px; } #viewport { top:116px; } .status { order:3; width:100%; } .tools { gap:5px; } .tools button { padding:0 8px; } }
   </style>
 </head>
-<body>${body}<script nonce="${nonce}">${script}</script></body>
+<body>${body}<script nonce="${nonce}">
+const dictionary = ${dictionaryJSON};
+const languageKey = "contextsail-collaboration-language";
+let language = "en";
+try { if (localStorage.getItem(languageKey) === "zh-CN") language = "zh-CN"; } catch {}
+const ui = text => language === "en" ? dictionary[text] ?? text : text;
+document.documentElement.lang = language;
+document.title = ui(document.title);
+const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+while (walker.nextNode()) {
+  const node = walker.currentNode;
+  if (node.parentElement.closest("script,style,textarea")) continue;
+  const text = node.data.trim();
+  if (Object.hasOwn(dictionary, text)) node.data = node.data.replace(text, ui(text));
+}
+for (const element of document.querySelectorAll("[aria-label],[title]")) {
+  for (const name of ["aria-label", "title"]) {
+    const value = element.getAttribute(name);
+    if (value) element.setAttribute(name, ui(value));
+  }
+}
+const languageSelect = document.createElement("select");
+languageSelect.setAttribute("aria-label", "Language / 语言");
+for (const [value, label] of [["en", "English"], ["zh-CN", "简体中文"]]) {
+  const option = document.createElement("option"); option.value = value; option.textContent = label; languageSelect.appendChild(option);
+}
+languageSelect.value = language;
+languageSelect.addEventListener("change", () => {
+  try {
+    localStorage.setItem(languageKey, languageSelect.value);
+    languageSelect.title = ui("语言已保存；重新打开页面后生效，不会中断当前任务。");
+  } catch { languageSelect.value = language; languageSelect.title = ui("语言设置保存失败，请重试。"); }
+});
+(document.querySelector(".tools") || document.querySelector(".landing .brand")).appendChild(languageSelect);
+${script}</script></body>
 </html>`;
 }
 
 export function collaborationLandingPage(code, nonce) {
   return pageShell("加入ContextSail协作", `<main class="landing">
-    <div class="brand"><span class="mark">拾</span><div><h1>加入白板协作</h1></div></div>
+    <div class="brand"><span class="mark">C</span><div><h1>加入白板协作</h1></div></div>
     <p>你将通过同一可信内网进入一块ContextSail白板，可直接协作编辑；不会获得其他白板、终端或本地文件权限。</p>
     <form method="post" action="/v1/collaborate/${String(code || "")}/claim"><button class="primary" type="submit">进入协作白板</button></form>
   </main>`, "", nonce);
@@ -85,7 +130,7 @@ export function collaborationLandingPage(code, nonce) {
 export function collaborationBoardPage({ boardId, nonce }) {
   const safeBoardId = JSON.stringify(String(boardId || ""));
   const body = `<header>
-    <span class="mark">拾</span>
+    <span class="mark">C</span>
     <div class="heading"><strong id="boardName">正在打开白板…</strong><span>浏览器协作 · 可直接编辑</span></div>
     <div class="status" id="status">正在连接</div>
     <div class="tools">
@@ -113,14 +158,14 @@ export function collaborationBoardPage({ boardId, nonce }) {
     const statusEl = byId("status");
     const toast = byId("toast");
     const state = { board:null, zoom:1, interacting:false, selected:"", connectSource:"", ended:false, editingId:"", cursor:0, viewReady:false };
-    let guestName = localStorage.getItem("shizuo-collaborator-name") || "协作者";
+    let guestName = localStorage.getItem("shizuo-collaborator-name") || ui("协作者");
     byId("name").textContent = guestName;
 
     function setStatus(text, kind) { statusEl.textContent = text; statusEl.dataset.state = kind || ""; }
     function notify(text, kind) { toast.textContent = text; toast.dataset.state = kind || ""; toast.hidden = false; clearTimeout(notify.timer); notify.timer = setTimeout(() => { toast.hidden = true; }, 3200); }
     function safeUrl(value) { try { const url = new URL(String(value || "")); return ["http:","https:"].includes(url.protocol) ? url.href : ""; } catch { return ""; } }
     function itemById(id) { return state.board?.items?.find(item => String(item.id) === String(id)); }
-    function labelFor(type) { return ({ text:"文字", document:"文档", code:"代码", image:"图片", link:"链接", page:"页面", task:"任务" })[type] || "卡片"; }
+    function labelFor(type) { return ({ text:ui("文字"), document:ui("文档"), code:ui("代码"), image:ui("图片"), link:ui("链接"), page:ui("页面"), task:ui("任务") })[type] || ui("卡片"); }
 
     async function rpc(method, params) {
       const response = await fetch("/v1/collaboration/rpc", {
@@ -132,9 +177,9 @@ export function collaborationBoardPage({ boardId, nonce }) {
       if (response.status === 401 || response.status === 410) {
         state.ended = true;
         document.body.dataset.ended = "true";
-        setStatus("共享已结束", "error");
+        setStatus(ui("共享已结束"), "error");
       }
-      if (!response.ok || !payload.ok) throw new Error(payload.error || "协作请求失败");
+      if (!response.ok || !payload.ok) throw new Error(ui(payload.error || "协作请求失败"));
       return payload.result;
     }
 
@@ -172,7 +217,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
       if (item.type === "image" && assetUrl(item)) {
         const image = document.createElement("img");
         image.src = assetUrl(item);
-        image.alt = item.alt || item.text || "图片";
+        image.alt = item.alt || item.text || ui("图片");
         image.loading = "lazy";
         image.referrerPolicy = "no-referrer";
         body.appendChild(image);
@@ -189,7 +234,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
       if (item.type === "task") {
         const status = document.createElement("div");
         status.className = "task-status";
-        status.textContent = ({ idle:"待处理", queued:"排队中", running:"执行中", success:"已完成", completed:"已完成", error:"失败", cancelled:"已停止" })[item.taskStatus] || "任务";
+        status.textContent = ({ idle:ui("待处理"), queued:ui("排队中"), running:ui("执行中"), success:ui("已完成"), completed:ui("已完成"), error:ui("失败"), cancelled:ui("已停止") })[item.taskStatus] || ui("任务");
         body.appendChild(status);
         const messages = item.taskMessages || [];
         for (const message of messages) {
@@ -210,7 +255,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
       }
       if (["link","page"].includes(item.type) && safeUrl(item.src)) {
         const text = document.createElement("div");
-        text.textContent = item.text || item.alt || "链接";
+        text.textContent = item.text || item.alt || ui("链接");
         const anchor = document.createElement("a");
         anchor.href = safeUrl(item.src);
         anchor.target = "_blank";
@@ -225,7 +270,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
         body.appendChild(pre);
         return;
       }
-      body.textContent = item.text || item.pageContent || item.alt || (item.type === "task" ? "待处理任务" : "空卡片");
+      body.textContent = item.text || item.pageContent || item.alt || (item.type === "task" ? ui("待处理任务") : ui("空卡片"));
     }
 
     function renderLinks() {
@@ -249,7 +294,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
     }
 
     function render() {
-      byId("boardName").textContent = state.board?.name || "共享白板";
+      byId("boardName").textContent = state.board?.name || ui("共享白板");
       cards.replaceChildren();
       const items = state.board?.items || [];
       for (const item of items) {
@@ -266,13 +311,13 @@ export function collaborationBoardPage({ boardId, nonce }) {
         const type = document.createElement("span");
         type.className = "card-type";
         type.textContent = item.taskWorkflowRole === "controller"
-          ? "动态工作流 · " + (({ efficiency:"工作提效", skill:"技能提升", perspective:"视野拓展", strategy:"格局提升" })[item.taskWorkflowLens] || "通用") + " · " + (item.taskWorkflowTitle || "执行中")
+          ? ui("动态工作流 · ") + (({ efficiency:ui("工作提效"), skill:ui("技能提升"), perspective:ui("视野拓展"), strategy:ui("格局提升") })[item.taskWorkflowLens] || ui("通用")) + " · " + (item.taskWorkflowTitle || ui("执行中"))
           : item.taskWorkflowRole === "step"
-            ? "执行容器 · " + (({ coding:"Codex", text:"文字", "image-gen":"图片", video:"视频" })[item.taskWorkflowMode] || "任务") + " · " + (item.taskWorkflowTitle || "未命名步骤")
+            ? ui("执行容器 · ") + (({ coding:"Codex", text:ui("文字"), "image-gen":ui("图片"), video:ui("视频") })[item.taskWorkflowMode] || ui("任务")) + " · " + (item.taskWorkflowTitle || ui("未命名步骤"))
             : labelFor(item.type);
-        if (item.taskSchedule?.enabled) type.textContent += " · 已定时";
+        if (item.taskSchedule?.enabled) type.textContent += ui(" · 已定时");
         const hint = document.createElement("span");
-        hint.textContent = "双击编辑";
+        hint.textContent = ui("双击编辑");
         head.append(type, hint);
         const body = document.createElement("div");
         body.className = "card-body";
@@ -280,13 +325,13 @@ export function collaborationBoardPage({ boardId, nonce }) {
         const resize = document.createElement("button");
         resize.type = "button";
         resize.className = "resize";
-        resize.setAttribute("aria-label", "调整卡片大小");
+        resize.setAttribute("aria-label", ui("调整卡片大小"));
         card.append(head, body, resize);
         card.addEventListener("pointerdown", event => beginCardPointer(event, item, card));
         card.addEventListener("dblclick", event => { if (!event.target.closest("a")) openEditor(item); });
         cards.appendChild(card);
       }
-      if (!items.length) { const empty = document.createElement("div"); empty.className = "empty"; empty.textContent = "白板还是空的，可以新建第一张卡片"; cards.appendChild(empty); }
+      if (!items.length) { const empty = document.createElement("div"); empty.className = "empty"; empty.textContent = ui("白板还是空的，可以新建第一张卡片"); cards.appendChild(empty); }
       applyZoom();
       renderLinks();
     }
@@ -308,7 +353,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
           state.fingerprint = fingerprint;
           render();
         }
-        setStatus("实时协作中", "ready");
+        setStatus(ui("实时协作中"), "ready");
       } catch (error) {
         if (!state.ended) setStatus(error.message, "error");
       }
@@ -316,10 +361,10 @@ export function collaborationBoardPage({ boardId, nonce }) {
 
     async function mutate(method, params, message) {
       state.interacting = true;
-      setStatus("正在同步…", "");
+      setStatus(ui("正在同步…"), "");
       try {
         await rpc(method, params);
-        notify(message || "修改已保存");
+        notify(message || ui("修改已保存"));
         state.interacting = false;
         await refresh(true);
       } catch (error) {
@@ -361,7 +406,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
           ? { width:parseFloat(card.style.width), height:parseFloat(card.style.height) }
           : { x:parseFloat(card.style.left), y:parseFloat(card.style.top) };
         const changed = Object.keys(patch).some(key => Math.abs(Number(patch[key]) - Number(original[key])) > 1);
-        if (changed) void mutate("cards.update", { cardId:item.id, expectedUpdatedAt:item.updatedAt, patch }, resizing ? "卡片尺寸已更新" : "卡片位置已更新");
+        if (changed) void mutate("cards.update", { cardId:item.id, expectedUpdatedAt:item.updatedAt, patch }, resizing ? ui("卡片尺寸已更新") : ui("卡片位置已更新"));
         else render();
       };
       card.addEventListener("pointermove", move);
@@ -381,7 +426,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
     function chooseConnection(item) {
       if (!state.connectSource) {
         state.connectSource = String(item.id);
-        byId("connectTip").textContent = "已选来源，再选择目标卡片";
+        byId("connectTip").textContent = ui("已选来源，再选择目标卡片");
         render();
         return;
       }
@@ -391,7 +436,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
       byId("connectTip").hidden = true;
       byId("connect").classList.remove("primary");
       if (sourceId === String(item.id)) { render(); return; }
-      void mutate("cards.connect", { sourceCardId:sourceId, targetCardId:item.id, expectedTargetUpdatedAt:item.updatedAt }, "卡片已连接");
+      void mutate("cards.connect", { sourceCardId:sourceId, targetCardId:item.id, expectedTargetUpdatedAt:item.updatedAt }, ui("卡片已连接"));
     }
 
     function setZoom(next, clientX = viewport.getBoundingClientRect().left + viewport.clientWidth / 2, clientY = viewport.getBoundingClientRect().top + viewport.clientHeight / 2) {
@@ -449,7 +494,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
     }
 
     byId("name").addEventListener("click", () => {
-      const next = prompt("协作中显示的名字", guestName);
+      const next = prompt(ui("协作中显示的名字"), guestName);
       if (!next?.trim()) return;
       guestName = next.trim().slice(0, 40);
       localStorage.setItem("shizuo-collaborator-name", guestName);
@@ -471,7 +516,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
       const patch = { text:byId("editText").value };
       if (["link","image","page"].includes(item.type)) patch.src = byId("editSrc").value.trim();
       byId("editDialog").close();
-      void mutate("cards.update", { cardId:item.id, expectedUpdatedAt:item.updatedAt, patch }, "卡片内容已更新");
+      void mutate("cards.update", { cardId:item.id, expectedUpdatedAt:item.updatedAt, patch }, ui("卡片内容已更新"));
     });
     byId("createForm").addEventListener("submit", event => {
       event.preventDefault();
@@ -480,7 +525,7 @@ export function collaborationBoardPage({ boardId, nonce }) {
       const card = { type, text:byId("createText").value, x:(viewport.scrollLeft + rect.width / 2) / state.zoom - 160, y:(viewport.scrollTop + rect.height / 2) / state.zoom - 80 };
       if (["link","image","page"].includes(type)) card.src = byId("createSrc").value.trim();
       byId("createDialog").close();
-      void mutate("cards.create", { card }, "卡片已创建");
+      void mutate("cards.create", { card }, ui("卡片已创建"));
     });
     viewport.addEventListener("pointerdown", beginCanvasPan);
     viewport.addEventListener("wheel", event => {

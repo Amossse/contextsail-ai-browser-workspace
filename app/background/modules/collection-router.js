@@ -1,6 +1,7 @@
 // Module: collection menus and Chrome event routing.
 async function registerContextMenus() {
   await ShizuoI18n.ready;
+  await chrome.action.setTitle({ title: ui("ContextSail — 带着资料问 AI") });
   if (contextMenuRefresh) return contextMenuRefresh;
   contextMenuRefresh = (async () => {
     const boards = (await PageDockDB.listBoards())

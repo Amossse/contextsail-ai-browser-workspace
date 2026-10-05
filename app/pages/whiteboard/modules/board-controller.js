@@ -463,7 +463,7 @@ function restoreRunningTasksForBoard(board) {
     const runId = String(item.taskRunId || "");
     const messages = normalizeTaskMessages(item.taskMessages, item);
     const lastUserMessage = [...messages].reverse().find(message => message.role === "user");
-    const workflowPlanning = item.taskWorkflowRole === "controller" && item.taskWorkflowTitle === "正在规划";
+    const workflowPlanning = item.taskWorkflowRole === "controller" && ["正在规划", "Planning"].includes(item.taskWorkflowTitle);
     if (runId.startsWith("scheduled-")) continue;
     if (!runId || !codexActiveTaskIds.has(runId)) {
       item.taskStatus = "error";

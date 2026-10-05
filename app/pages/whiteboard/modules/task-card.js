@@ -386,11 +386,11 @@ function renderTaskThread(item, thread, active) {
 function taskErrorPresentation(rawError, cancelled = false) {
   const detail = String(rawError || "").trim();
   if (cancelled) return { summary: ui("任务已停止，可以重新执行"), detail: "" };
-  if (/最多可同时执行|个任务执行中/.test(detail)) {
+  if (/最多可同时执行|个任务执行中|Up to \d+ local (?:AI )?tasks|tasks? (?:are )?running/i.test(detail)) {
     return { summary: codexAtCapacity() ? codexCapacityReason() : ui("现在可以重新执行"), detail };
   }
-  if (/未连接|桥接|native host|node:/i.test(detail)) return { summary: ui("Codex 暂时不可用，请检查本地连接"), detail };
-  if (/timeout|超时|超过\s*\d+\s*(?:分钟|小时)/i.test(detail)) return { summary: ui("任务耗时过长，已自动停止"), detail };
+  if (/未连接|桥接|native host|bridge|not connected|node:/i.test(detail)) return { summary: ui("Codex 暂时不可用，请检查本地连接"), detail };
+  if (/timeout|timed out|超时|超过\s*\d+\s*(?:分钟|小时)|exceeded \d+ hours?/i.test(detail)) return { summary: ui("任务耗时过长，已自动停止"), detail };
   if (/hyperframes|browsergpumode|render|渲染/i.test(detail)) return { summary: ui("视频生成没有完成，请重试"), detail };
   if (/remotion/i.test(detail)) return { summary: ui("Remotion 视频生成没有完成，请重试"), detail };
   if (/图片|image/i.test(detail)) return { summary: ui("图片处理没有完成，请检查素材后重试"), detail };
@@ -609,7 +609,7 @@ function updateTaskItemElement(item) {
   scheduleButton.hidden = item.taskWorkflowRole === "step" || !settingsExpanded;
   scheduleButton.textContent = taskScheduleLabel(item.taskSchedule);
   scheduleButton.dataset.active = String(Boolean(item.taskSchedule?.enabled));
-  scheduleButton.title = item.taskSchedule?.enabled ? ui("下次执行：{0}", new Date(item.taskSchedule.retryAt || item.taskSchedule.nextRunAt).toLocaleString()) : ui("设置定时执行");
+  scheduleButton.title = item.taskSchedule?.enabled ? ui("下次执行：{0}", new Date(item.taskSchedule.retryAt || item.taskSchedule.nextRunAt).toLocaleString(ShizuoI18n.language)) : ui("设置定时执行");
   stop.hidden = !preparing && !activeConversation && !activeShortcut && !activeWorkflow && !activePersisted;
   stop.disabled = Boolean(active && (activeConversation
     ? activeConversationTask?.cancelRequested

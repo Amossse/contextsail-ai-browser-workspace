@@ -155,6 +155,9 @@ fi
 for module in "$script_dir"/*.mjs; do
   install -m 644 "$module" "$install_root/${module:t}"
 done
+for dictionary in i18n-en.js i18n-en-extended.js; do
+  install -m 644 "$script_dir/../app/core/$dictionary" "$install_root/$dictionary"
+done
 install -m 755 "$script_dir/pagedock-pty.py" "$pty_helper"
 install -m 755 "$script_dir/pagedock-hyperframes-python" "$hyperframes_python_launcher"
 install -m 644 "$script_dir/python-compat/sitecustomize.py" "$python_compat_dir/sitecustomize.py"

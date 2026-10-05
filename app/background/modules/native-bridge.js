@@ -34,6 +34,8 @@ function connectCodexNative() {
       codexNativePort = port;
       port.onMessage.addListener(message => {
         if (!message || typeof message !== "object") return;
+        if (typeof message.error === "string") message.error = ShizuoI18n.feedback(message.error);
+        if (message.type === "progress" && typeof message.label === "string") message.label = ShizuoI18n.feedback(message.label);
         if (message.type === CODEX_PLUGIN_REQUEST) {
           void respondToPluginRequest(port, message);
           return;

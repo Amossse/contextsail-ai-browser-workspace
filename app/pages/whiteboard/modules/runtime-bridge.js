@@ -283,7 +283,7 @@ async function openLocalCodexSessionPreview(threadId, refresh = false) {
   codexSessionPreviewEl.hidden = false;
   const request = ++localCodexSessionPreviewRequest;
   if (!refresh) {
-    codexSessionPreviewTitleEl.textContent = localCodexSessions.find(session => session.threadId === id)?.title || "Session Preview";
+    codexSessionPreviewTitleEl.textContent = localCodexSessions.find(session => session.threadId === id)?.title || ui("会话预览");
     codexSessionPreviewMetaEl.textContent = ui("正在读取公开消息…");
     codexSessionMessagesEl.replaceChildren();
   }

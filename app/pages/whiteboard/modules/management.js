@@ -133,7 +133,7 @@ async function openVersionHistory() {
       const title = document.createElement("strong");
       title.textContent = ui("版本 {0} · {1}", revision.revision, revision.reason || ui("更新白板"));
       const detail = document.createElement("span");
-      detail.textContent = ui("{0} · {1} 张卡片 · {2}", revision.actor?.name || ui("白板用户"), revision.changedCardCount, new Date(revision.createdAt).toLocaleString());
+      detail.textContent = ui("{0} · {1} 张卡片 · {2}", revision.actor?.name || ui("白板用户"), revision.changedCardCount, new Date(revision.createdAt).toLocaleString(ShizuoI18n.language));
       copy.append(title, detail);
       const actions = document.createElement("div");
       actions.className = "management-row-actions";
