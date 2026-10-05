@@ -127,7 +127,7 @@ export function createTerminalController({ activeJobs, codingWorkspace, terminal
     if (terminalSessions.size >= MAX_TERMINAL_SESSIONS) throw new Error(`最多可同时打开 ${MAX_TERMINAL_SESSIONS} 个终端会话`);
     if (!fs.existsSync(codingWorkspace)) throw new Error("控制台工作目录不存在，请重新安装本地桥接");
     if (!commandAvailable(terminalShell)) throw new Error("本机未找到可用 Shell");
-    if (!commandAvailable(pythonBinary) || !fs.existsSync(ptyHelper)) throw new Error("本地 PTY 组件缺失，请重新安装拾作本地桥接");
+    if (!commandAvailable(pythonBinary) || !fs.existsSync(ptyHelper)) throw new Error("本地 PTY 组件缺失，请重新安装ContextSail本地桥接");
     const cols = Math.max(2, Math.min(1000, Number(message.cols) || 100));
     const rows = Math.max(2, Math.min(1000, Number(message.rows) || 30));
     const child = spawn(pythonBinary, [ptyHelper, "--shell", terminalShell, "--cwd", codingWorkspace, "--cols", String(cols), "--rows", String(rows)], {

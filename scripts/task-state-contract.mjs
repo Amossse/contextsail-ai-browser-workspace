@@ -149,7 +149,7 @@ assert.match(host, /function buildImageGenPrompt/, "Codex image-gen mode must ha
 assert.match(host, /function sendImageArtifact/, "Codex image-gen output must stream back to the canvas");
 assert.match(host, /message\.mode === "image-gen"/, "Native Host must recognize direct image generation mode");
 assert.match(host, /内置 image-gen/, "direct image generation must not silently fall back to an API-key CLI");
-assert.match(host, /与拾作模板做图保持同一套暖色纸张手稿视觉语言/, "direct image generation must inherit the template image visual language");
+assert.match(host, /与ContextSail模板做图保持同一套暖色纸张手稿视觉语言/, "direct image generation must inherit the template image visual language");
 assert.match(host, /默认禁止暗黑科技风/, "direct image generation must reject the dark-tech default style");
 assert.match(board, /视觉语言必须与模板做图一致/, "the image-gen shortcut must request the shared paper-sketch style");
 assert.match(host, /function inspectVideoVisualProject/, "video rendering must reject visible template source before HyperFrames render");

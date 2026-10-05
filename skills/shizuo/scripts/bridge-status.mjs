@@ -10,13 +10,13 @@ let config = {};
 try {
   config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 } catch {
-  process.stderr.write("未找到拾作桥接配置，请先安装 Native Host。\n");
+  process.stderr.write("未找到ContextSail桥接配置，请先安装 Native Host。\n");
   process.exit(1);
 }
 const url = String(process.env.SHIZUO_BRIDGE_URL || `http://127.0.0.1:${Number(config.port) || 43_127}`).replace(/\/$/, "");
 const token = String(process.env.SHIZUO_BRIDGE_TOKEN || config.token || "");
 if (!token) {
-  process.stderr.write("拾作桥接配置缺少令牌。\n");
+  process.stderr.write("ContextSail桥接配置缺少令牌。\n");
   process.exit(1);
 }
 try {
@@ -34,6 +34,6 @@ try {
     hostVersion: payload.hostVersion
   }, null, 2)}\n`);
 } catch (error) {
-  process.stderr.write(`拾作桥接未连接：${error.message}\n`);
+  process.stderr.write(`ContextSail桥接未连接：${error.message}\n`);
   process.exit(2);
 }

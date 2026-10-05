@@ -94,14 +94,14 @@ function createItemElement(item) {
     const download = document.createElement("a");
     download.className = "video-download";
     download.href = item.src;
-    download.download = item.filename || `${safeFilename(item.alt || ui("拾作-AI-Video"))}.mp4`;
+    download.download = item.filename || `${safeFilename(item.alt || ui("ContextSail-AI-Video"))}.mp4`;
     download.textContent = ui("下载 MP4");
     const narrate = document.createElement("button");
     narrate.className = "video-narrate";
     narrate.type = "button";
     narrate.textContent = ui("添加口播与字幕");
     narrate.addEventListener("click", () => {
-      const narration = window.prompt(ui("输入口播文案。拾作会按句生成字幕，并使用本地 Kokoro 配音。"), "");
+      const narration = window.prompt(ui("输入口播文案。ContextSail会按句生成字幕，并使用本地 Kokoro 配音。"), "");
       if (!String(narration || "").trim()) return;
       const task = addTaskItem(aiResultPoint([item]), {
         text: String(narration).trim(),

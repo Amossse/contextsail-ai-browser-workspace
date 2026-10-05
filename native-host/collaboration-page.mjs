@@ -75,9 +75,9 @@ function pageShell(title, body, script, nonce) {
 }
 
 export function collaborationLandingPage(code, nonce) {
-  return pageShell("加入拾作协作", `<main class="landing">
+  return pageShell("加入ContextSail协作", `<main class="landing">
     <div class="brand"><span class="mark">拾</span><div><h1>加入白板协作</h1></div></div>
-    <p>你将通过同一可信内网进入一块拾作白板，可直接协作编辑；不会获得其他白板、终端或本地文件权限。</p>
+    <p>你将通过同一可信内网进入一块ContextSail白板，可直接协作编辑；不会获得其他白板、终端或本地文件权限。</p>
     <form method="post" action="/v1/collaborate/${String(code || "")}/claim"><button class="primary" type="submit">进入协作白板</button></form>
   </main>`, "", nonce);
 }
@@ -497,5 +497,5 @@ export function collaborationBoardPage({ boardId, nonce }) {
     });
     setInterval(() => void refresh(false), 15000);
   `;
-  return pageShell("拾作协作白板", body, script, nonce);
+  return pageShell("ContextSail协作白板", body, script, nonce);
 }

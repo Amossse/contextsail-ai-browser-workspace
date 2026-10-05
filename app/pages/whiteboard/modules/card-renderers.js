@@ -109,7 +109,7 @@ async function openTerminalSession(item, element = itemElement(item.id), resumeE
   } catch (error) {
     item.terminalStatus = "error";
     session.terminal.writeln(ui(`\r
-[31m[拾作] {0}[0m`, error?.message || ui("终端连接失败")));
+[31m[ContextSail] {0}[0m`, error?.message || ui("终端连接失败")));
     updateTerminalItemElement(item, false);
     scheduleSave();
   }
@@ -220,7 +220,7 @@ function handleTerminalEvent(event) {
     } else if (event.type === "terminal-session-error") {
       item.terminalStatus = "error";
       session?.terminal?.writeln(ui(`\r
-[31m[拾作] {0}[0m`, event.error || ui("终端会话失败")));
+[31m[ContextSail] {0}[0m`, event.error || ui("终端会话失败")));
     }
     clearTerminalSaveTimer(item.id);
     item.updatedAt = Date.now();

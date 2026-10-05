@@ -76,7 +76,7 @@ saveMarkdownButton.addEventListener("click", () => runCapture("capture-markdown"
 savePdfButton.addEventListener("click", () => runCapture("capture-screenshot", true));
 openWorkspaceButton.addEventListener("click", async () => {
   setBusy(true);
-  setStatus(ui("正在打开拾作…"));
+  setStatus(ui("正在打开ContextSail…"));
   try {
     await chrome.tabs.create({ url: WHITEBOARD_URL });
     window.close();

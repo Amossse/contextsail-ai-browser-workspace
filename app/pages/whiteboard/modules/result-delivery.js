@@ -188,7 +188,7 @@ function handleWhiteboardCodexEvent(message) {
     }
     task.imageArtifact = {
       mimeType: String(message.mimeType || "image/png"),
-      filename: String(message.filename || ui("拾作-AI-Image.png")),
+      filename: String(message.filename || ui("ContextSail-AI-Image.png")),
       size: Number(message.size) || 0,
       chunks: new Array(totalChunks),
       received: 0,
@@ -219,7 +219,7 @@ function handleWhiteboardCodexEvent(message) {
     }
     task.videoArtifact = {
       mimeType: String(message.mimeType || "video/mp4"),
-      filename: String(message.filename || ui("拾作-AI-Video.mp4")),
+      filename: String(message.filename || ui("ContextSail-AI-Video.mp4")),
       size: Number(message.size) || 0,
       chunks: new Array(totalChunks),
       received: 0,

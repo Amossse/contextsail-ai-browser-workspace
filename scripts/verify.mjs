@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import "./brand-contract-test.mjs";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { backgroundScriptFiles, nativeHostModuleFiles, readBackgroundSource, readWhiteboardSource, readWhiteboardStyles, whiteboardScriptFiles } from "./source-utils.mjs";
@@ -124,9 +125,9 @@ check(manifest.optional_host_permissions?.includes("https://*/*"), "缺少 HTTPS
   "icons/icon32.png"
 ].forEach(file => check(existsSync(join(root, file)), `缺少运行文件：${file}`));
 
-check(read("skills/shizuo/SKILL.md").split("\n").length <= 100, "拾作 Skill 主说明超过 100 行");
-check(/name:\s*shizuo/.test(read("skills/shizuo/SKILL.md")), "拾作 Skill 缺少正确名称");
-check(/Use when/.test(read("skills/shizuo/SKILL.md")), "拾作 Skill 描述缺少触发条件");
+check(read("skills/shizuo/SKILL.md").split("\n").length <= 100, "ContextSail Skill 主说明超过 100 行");
+check(/name:\s*shizuo/.test(read("skills/shizuo/SKILL.md")), "ContextSail Skill 缺少正确名称");
+check(/Use when/.test(read("skills/shizuo/SKILL.md")), "ContextSail Skill 描述缺少触发条件");
 check(read("native-host/shizuo-mcp-server.mjs") === read("skills/shizuo/scripts/shizuo-mcp-server.mjs"), "Native Host 与 Skill 的 MCP 适配器已漂移");
 
 const backgroundSource = readBackgroundSource();
@@ -220,9 +221,9 @@ check(!/\balert\s*\(/.test(appSources), "发现阻塞式 alert，请改为原位
 check(!/chrome-extension:\/\/[a-p]{32}/.test(read("app/pages/popup/popup.js")), "弹出面板硬编码了扩展 ID");
 
 if (failures.length) {
-  console.error(`拾作验证失败（${failures.length} 项）`);
+  console.error(`ContextSail验证失败（${failures.length} 项）`);
   failures.forEach(failure => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-console.log(`拾作 ${manifest.version} 验证通过`);
+console.log(`ContextSail ${manifest.version} 验证通过`);

@@ -31,6 +31,7 @@ We aim to:
 
 | Version | Security updates |
 | --- | --- |
+| 2.25.x | ✅ |
 | 2.24.x | ✅ |
 | 2.23.x | Critical fixes only |
 | < 2.23 | ❌ |

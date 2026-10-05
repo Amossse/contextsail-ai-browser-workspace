@@ -76,4 +76,4 @@ assert.equal(healthPayload.profile, "core");
 assert.equal(healthPayload.checks.find(check => check.id === "python")?.required, false, "核心安装不能被终端依赖阻塞");
 fs.rmSync(emptySupportRoot, { recursive: true, force: true });
 
-console.log("拾作安装命令契约验证通过");
+console.log("ContextSail安装命令契约验证通过");

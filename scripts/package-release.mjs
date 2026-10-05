@@ -25,6 +25,7 @@ if (requireTag) {
 }
 
 const rootFiles = new Set([
+  "docs/contextsail-banner.png",
   "LICENSE",
   "PRIVACY.md",
   "README.md",
@@ -48,7 +49,7 @@ for (const required of ["manifest.json", "install.sh", "README.md", "README.zh-C
 }
 
 mkdirSync(outputDirectory, { recursive: true });
-const archiveName = `shizuo-codex-workspace-${version}.zip`;
+const archiveName = `contextsail-ai-browser-workspace-${version}.zip`;
 const archivePath = path.join(outputDirectory, archiveName);
 const checksumPath = path.join(outputDirectory, "SHA256SUMS.txt");
 for (const target of [archivePath, checksumPath]) {
@@ -58,7 +59,7 @@ for (const target of [archivePath, checksumPath]) {
 execFileSync("git", [
   "archive",
   "--format=zip",
-  `--prefix=shizuo-codex-workspace-${version}/`,
+  `--prefix=contextsail-ai-browser-workspace-${version}/`,
   `--output=${archivePath}`,
   "HEAD",
   "--",

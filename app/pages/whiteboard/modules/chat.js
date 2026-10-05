@@ -477,7 +477,7 @@ async function connectCodexChat() {
       ? ""
       : (response.health?.nativeHost
         ? ui("{0} CLI 不可用，请确认已安装并在终端完成登录", aiRuntimeLabel())
-        : ui("本地桥接未连接：请在 chrome://extensions 重新加载拾作；首次安装请先在扩展目录运行 ./install.sh --core"));
+        : ui("本地桥接未连接：请在 chrome://extensions 重新加载ContextSail；首次安装请先在扩展目录运行 ./install.sh --core"));
     updateCodexTaskSnapshot(response);
     updateExternalCodexStatus(response);
     setCodexChatStatus(
@@ -489,7 +489,7 @@ async function connectCodexChat() {
   } catch (error) {
     codexChatReady = false;
     lastCodexStatusSnapshot = null;
-    codexConnectionHint = ui("本地桥接未连接：请在 chrome://extensions 重新加载拾作；首次安装请先在扩展目录运行 ./install.sh --core");
+    codexConnectionHint = ui("本地桥接未连接：请在 chrome://extensions 重新加载ContextSail；首次安装请先在扩展目录运行 ./install.sh --core");
     console.warn("[pagedock-codex-chat] local bridge unavailable", { reason: error?.message || String(error) });
     setCodexChatStatus(codexConnectionHint, "error");
   }
@@ -548,7 +548,7 @@ async function sendCodexChatMessage() {
       mode: aiRuntime === "agy" ? "conversation" : "coding",
       prompt,
       page: {
-        title: codexAttachedPage?.title || (currentBoard ? ui("{0} · {1} 会话", currentBoard.name, aiRuntimeLabel()) : ui("拾作 · {0} 会话", aiRuntimeLabel())),
+        title: codexAttachedPage?.title || (currentBoard ? ui("{0} · {1} 会话", currentBoard.name, aiRuntimeLabel()) : ui("ContextSail · {0} 会话", aiRuntimeLabel())),
         url: codexAttachedPage?.url || "",
         content: [materialContext, conversationContext].filter(Boolean).join("\n\n---\n\n")
       },

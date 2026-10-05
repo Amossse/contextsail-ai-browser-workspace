@@ -1,7 +1,7 @@
 {
-  "name": "shizuo",
-  "version": "2.24.6",
-  "description": "Collect web research, ask Codex about it, and keep answers beside their sources for follow-up questions.",
+  "name": "contextsail",
+  "version": "2.25.0",
+  "description": "Local-first AI browser workspace: web clipper, infinite canvas, and MCP bridge for Codex and Claude Code.",
   "type": "module",
   "keywords": [
     "chrome-extension",
@@ -28,14 +28,14 @@
     "privacy"
   ],
   "license": "MIT",
-  "author": "拾作 Contributors",
-  "homepage": "https://github.com/Amossse/shizuo-codex-workspace#readme",
+  "author": "ContextSail Contributors",
+  "homepage": "https://github.com/Amossse/contextsail-ai-browser-workspace#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Amossse/shizuo-codex-workspace.git"
+    "url": "git+https://github.com/Amossse/contextsail-ai-browser-workspace.git"
   },
   "bugs": {
-    "url": "https://github.com/Amossse/shizuo-codex-workspace/issues"
+    "url": "https://github.com/Amossse/contextsail-ai-browser-workspace/issues"
   },
   "scripts": {
     "test": "node scripts/i18n-test.mjs && node scripts/verify.mjs && node scripts/release-contract-test.mjs && node scripts/runtime-utils-test.mjs && node scripts/install-contract-test.mjs && node scripts/bridge-auth-test.mjs && node scripts/board-domain-test.mjs && node scripts/onboarding-contract.mjs && node scripts/page-chat-contract.mjs && node scripts/task-state-contract.mjs && node scripts/session-preview-contract.mjs && node scripts/native-process-stream-test.mjs && node scripts/terminal-output-stress.mjs && node scripts/external-bridge-test.mjs",

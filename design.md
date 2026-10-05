@@ -1,6 +1,6 @@
-# Design — 拾作
+# Design — ContextSail
 
-拾作面向普通用户，是一个本地优先的 Browser-to-Canvas Agent 工作台。核心承诺是把网页和本地资料放进画布，让本地 AI Agent 理解、执行并留下可追溯结果。所有扩展页面共用本设计系统，不为单个页面另起一套主题。
+ContextSail面向普通用户，是一个本地优先的 Browser-to-Canvas Agent 工作台。核心承诺是把网页和本地资料放进画布，让本地 AI Agent 理解、执行并留下可追溯结果。所有扩展页面共用本设计系统，不为单个页面另起一套主题。
 
 ## Genre
 
@@ -10,7 +10,7 @@ modern-minimal
 
 - App pages: Workbench。固定工具栏只承载高频动作，选择态与低频能力通过上下文菜单渐进显示。
 - Content pages: Long Document。Markdown 预览保持安静、清晰、可长时间阅读。
-- Extension popup: Compact launcher。只展示“保存当前页”和“打开拾作”两个任务入口；Markdown / PDF 作为保存格式，不作为产品模式。
+- Extension popup: Compact launcher。只展示“保存当前页”和“打开ContextSail”两个任务入口；Markdown / PDF 作为保存格式，不作为产品模式。
 
 ## Interaction model
 
@@ -88,7 +88,7 @@ Coral。暖奶油纸张、深棕墨色与克制的珊瑚强调色；不使用渐
 
 ## What pages MUST share
 
-- 拾作字标与珊瑚色应用图标；图标由素材页面、收集托盘和 Codex 创作闪光组成。
+- ContextSail字标与珊瑚色应用图标；图标由素材页面、收集托盘和 Codex 创作闪光组成。
 - 暖纸背景、深墨正文、珊瑚主操作。
 - Avenir / Hiragino Sans 字体组合。
 - 按钮、输入框、焦点环、错误和加载状态。

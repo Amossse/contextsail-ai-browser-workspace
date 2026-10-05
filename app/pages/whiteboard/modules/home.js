@@ -186,7 +186,7 @@ async function renderHome(updateUrl = true) {
   selectedIds.clear();
   setView("home");
   if (updateUrl && location.search) history.pushState({}, "", location.pathname);
-  document.title = ui("拾作");
+  document.title = ui("ContextSail");
   const [boards, recent, templates] = await Promise.all([db.listBoards(), db.recentItems(16), db.listTemplates()]);
   homeBoards = boards;
   homeRecent = recent;
@@ -264,7 +264,7 @@ async function stopBridgeShare() {
     shareBridgeTextEl.value = "";
     shareCodexTextEl.value = "";
     updateExternalCodexStatus({ connected: false, scope: "local" });
-    setBridgeShareDialogStatus(ui("已停止共享，拾作已恢复为仅本机访问"));
+    setBridgeShareDialogStatus(ui("已停止共享，ContextSail已恢复为仅本机访问"));
     setStatus(ui("已停止内网共享"));
   } catch (error) {
     stopBridgeShareEl.disabled = false;

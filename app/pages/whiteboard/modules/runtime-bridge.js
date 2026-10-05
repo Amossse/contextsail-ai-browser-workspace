@@ -96,15 +96,15 @@ function renderCodexLauncherConnectionStatus() {
   codexExternalStatusEl.dataset.connected = String(connected);
   if (codexChatReady) {
     codexExternalStatusEl.textContent = ui("本地已连接");
-    codexExternalStatusEl.title = ui("拾作已自动连接本地 AI");
+    codexExternalStatusEl.title = ui("ContextSail已自动连接本地 AI");
     return;
   }
   codexExternalStatusEl.textContent = externalCodexConnected
     ? (externalCodexScope === "lan" ? ui("MCP 内网已接入") : ui("MCP 已接入"))
-    : (externalCodexScope === "lan" ? ui("MCP 内网待接入") : (codexConnectionHint ? ui("需要重新加载拾作") : ui("正在连接本地 AI")));
+    : (externalCodexScope === "lan" ? ui("MCP 内网待接入") : (codexConnectionHint ? ui("需要重新加载ContextSail") : ui("正在连接本地 AI")));
   codexExternalStatusEl.title = externalCodexConnected
-    ? ui("外部 Codex 已通过{0} MCP 接入拾作", externalCodexScope === "lan" ? ui("内网") : ui("本机"))
-    : (externalCodexScope === "lan" ? ui("拾作已开启内网共享，正在等待同事的 Codex 接入") : (codexConnectionHint || ui("打开拾作后会自动连接本地 AI")));
+    ? ui("外部 Codex 已通过{0} MCP 接入ContextSail", externalCodexScope === "lan" ? ui("内网") : ui("本机"))
+    : (externalCodexScope === "lan" ? ui("ContextSail已开启内网共享，正在等待同事的 Codex 接入") : (codexConnectionHint || ui("打开ContextSail后会自动连接本地 AI")));
 }
 
 function updateExternalCodexStatus(snapshot = {}) {

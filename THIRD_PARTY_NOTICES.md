@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-**拾作** bundles the following open-source software in `vendor/`. Each library is shipped unmodified and retains its original copyright and license.
+**ContextSail** bundles the following open-source software in `vendor/`. Each library is shipped unmodified and retains its original copyright and license.
 
 | Dependency | Version | License | Purpose | Homepage |
 | --- | --- | --- | --- | --- |

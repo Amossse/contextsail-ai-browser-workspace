@@ -26,7 +26,7 @@ async function runtime(stored = {}, databases = [], failWrite = false, worker = 
 const fresh = await runtime();
 assert.equal(fresh.api.language, "en");
 assert.equal(fresh.stored[fresh.api.KEY], "en");
-assert.equal(fresh.api.t("拾作"), "Shizuo");
+assert.equal(fresh.api.t("ContextSail"), "ContextSail");
 assert.equal(fresh.api.t("发送"), "Send");
 const userText = "发送 <img src=x onerror=alert(1)> {1} $&";
 assert.equal(fresh.api.t("来源：{0}", userText), `Source: ${userText}`, "interpolation must preserve user content exactly without recursive translation");
@@ -63,7 +63,7 @@ assert.doesNotMatch(pageSource, /MutationObserver|location\.reload|innerHTML\s*=
 assert.match(pageSource, /script, style, textarea, \[contenteditable\]/);
 assert.match(readSource("app/core/pagedock-db.js"), /ShizuoI18n\.ready\.then\(openDatabaseReady\)/, "database creation must wait until migration finishes");
 const manifest = JSON.parse(readSource("manifest.json"));
-assert.equal(manifest.name, "Shizuo");
+assert.equal(manifest.name, "ContextSail");
 assert.equal(manifest.content_scripts[0].js.at(-1), "app/content/content-codex.js");
 for (const page of ["whiteboard/index", "popup/popup", "sidepanel/sidepanel", "editor/editor", "offscreen/offscreen"]) {
   const html = readSource(`app/pages/${page}.html`);

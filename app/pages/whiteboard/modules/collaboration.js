@@ -147,7 +147,7 @@ function renderExternalCollaboration() {
     const title = document.createElement("strong");
     title.textContent = ui("{0} 请求{1}", approval.client?.name || "Codex", approval.label || ui("修改白板"));
     const summary = document.createElement("span");
-    summary.textContent = approval.summary || ui("此操作会修改拾作白板");
+    summary.textContent = approval.summary || ui("此操作会修改ContextSail白板");
     const actions = document.createElement("div");
     actions.className = "collaboration-approval-actions";
     const reject = document.createElement("button");

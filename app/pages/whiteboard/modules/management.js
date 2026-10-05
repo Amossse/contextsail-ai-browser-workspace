@@ -235,9 +235,9 @@ function openConnectionGuide({ snapshot = lastCodexStatusSnapshot, resume } = {}
     connectionGuideTitleEl.textContent = ui("先连接本地 {0}", runtimeName);
     connectionGuideIntroEl.textContent = ui("只需完成一次设置。完成后会自动继续刚才的任务。");
     connectionGuideStepsEl.append(
-      connectionGuideStep(ui("加载拾作扩展"), ui("打开 chrome://extensions，开启开发者模式并加载解压后的拾作文件夹。")),
+      connectionGuideStep(ui("加载ContextSail扩展"), ui("打开 chrome://extensions，开启开发者模式并加载解压后的ContextSail文件夹。")),
       connectionGuideStep(ui("运行安装命令"), ui("复制下方命令，在该文件夹的终端中运行。命令已包含当前扩展 ID。")),
-      connectionGuideStep(ui("重新加载扩展"), ui("回到 chrome://extensions 点击拾作的重新加载，再回来检查连接。"))
+      connectionGuideStep(ui("重新加载扩展"), ui("回到 chrome://extensions 点击ContextSail的重新加载，再回来检查连接。"))
     );
     connectionGuideCommandEl.hidden = false;
     connectionGuideCommandTextEl.textContent = installCommand;
@@ -246,7 +246,7 @@ function openConnectionGuide({ snapshot = lastCodexStatusSnapshot, resume } = {}
     connectionGuideIntroEl.textContent = ui("本地桥接已就绪，只差命令行登录。完成后会自动继续刚才的任务。");
     connectionGuideStepsEl.append(
       connectionGuideStep(ui("打开 {0} CLI", runtimeName), ui("在终端运行 {0} 并按提示完成登录。", aiRuntimeCommand())),
-      connectionGuideStep(ui("回到拾作检查连接"), ui("登录完成后无需重新创建任务。"))
+      connectionGuideStep(ui("回到ContextSail检查连接"), ui("登录完成后无需重新创建任务。"))
     );
     connectionGuideCommandEl.hidden = true;
   } else {

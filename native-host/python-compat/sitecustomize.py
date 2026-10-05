@@ -1,4 +1,4 @@
-"""拾作-only macOS compatibility hooks for HyperFrames Python workers."""
+"""ContextSail-only macOS compatibility hooks for HyperFrames Python workers."""
 
 import errno
 import os

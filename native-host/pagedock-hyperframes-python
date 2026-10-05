@@ -7,7 +7,7 @@ compat_directory="$script_directory/python-compat"
 real_python="${PAGEDOCK_REAL_PYTHON:-}"
 
 if [[ -z "$real_python" || ! -x "$real_python" ]]; then
-  print -u2 "拾作 Kokoro Python 不可用，请重新安装本地桥接"
+  print -u2 "ContextSail Kokoro Python 不可用，请重新安装本地桥接"
   exit 1
 fi
 

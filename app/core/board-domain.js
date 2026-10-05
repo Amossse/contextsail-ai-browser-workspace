@@ -238,7 +238,7 @@
 
   function instantiateTemplate(template, options = {}) {
     if (!template || template.kind !== "pagedock-template" || Number(template.version) !== 1) {
-      throw new Error(ui("不是有效的拾作工作流模板"));
+      throw new Error(ui("不是有效的ContextSail工作流模板"));
     }
     const makeId = options.makeId || (prefix => global.crypto?.randomUUID?.() || `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2)}`);
     const now = Number(options.now) || Date.now();
@@ -397,7 +397,7 @@
   function workflowPlanningPrompt(goal, lensInput) {
     const lens = workflowLens(lensInput);
     return [
-      ui("你是拾作动态工作流编排器。把用户目标拆成可执行 DAG，只输出合法 JSON，不要 Markdown 或解释。"),
+      ui("你是ContextSail动态工作流编排器。把用户目标拆成可执行 DAG，只输出合法 JSON，不要 Markdown 或解释。"),
       ui(`格式：{"title":"工作流名称","steps":[{"id":"英文短标识","title":"容器标题","instruction":"可独立执行的完整指令","mode":"coding|text|image-gen|video","dependsOn":["上游 id"]}]}。`),
       ui("最多 8 步；查询、检索、分析和调用工具用 coding；纯文字整理用 text；直接绘图用 image-gen；生成视频用 video。依赖必须准确，不得循环。"),
       ui("成长视角：{0}。{1}", lens.label, lens.guidance),

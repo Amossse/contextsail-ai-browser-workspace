@@ -175,7 +175,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
       "if \"$codex_bin\" mcp get shizuo-lan >/dev/null 2>&1; then \"$codex_bin\" mcp remove shizuo-lan >/dev/null; fi",
       "\"$codex_bin\" mcp add shizuo-lan --env \"SHIZUO_BRIDGE_URL=$bridge_url\" --env \"SHIZUO_BRIDGE_TOKEN=$bridge_token\" -- \"$node_bin\" \"$skill_root/scripts/shizuo-mcp-server.mjs\"",
       "SHIZUO_BRIDGE_URL=\"$bridge_url\" SHIZUO_BRIDGE_TOKEN=\"$bridge_token\" \"$node_bin\" \"$skill_root/scripts/bridge-status.mjs\" >/dev/null",
-      "print '拾作已连接。请重启 Codex，然后说：读取拾作白板'"
+      "print 'ContextSail已连接。请重启 Codex，然后说：读取ContextSail白板'"
     ].join("\n") + "\n";
   }
   
@@ -191,16 +191,16 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
   
   function inviteMarkdown(invite) {
     return [
-      "# 拾作一次性连接邀请",
+      "# ContextSail一次性连接邀请",
       "",
       "此邀请仅适用于同一可信内网，10 分钟内一次有效。",
-      "无需使用 Chrome 打开内网地址。只有在用户明确要求连接拾作时，才在 Codex 终端执行下面的安装命令：",
+      "无需使用 Chrome 打开内网地址。只有在用户明确要求连接ContextSail时，才在 Codex 终端执行下面的安装命令：",
       "",
       "```bash",
       `curl -fsS -X POST ${shellQuote(`${invite.inviteUrl}/install`)} | zsh`,
       "```",
       "",
-      "安装完成后重启 Codex，再说“读取拾作白板”。默认不开放删除、终端或本地文件能力。"
+      "安装完成后重启 Codex，再说“读取ContextSail白板”。默认不开放删除、终端或本地文件能力。"
     ].join("\n");
   }
   
@@ -245,7 +245,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
         pluginRequests.delete(requestId);
-        reject(new Error("插件响应超时，请确认 Chrome 中已启用拾作"));
+        reject(new Error("插件响应超时，请确认 Chrome 中已启用ContextSail"));
       }, BRIDGE_REQUEST_TIMEOUT_MS);
       pluginRequests.set(requestId, { resolve, reject, timer });
       send({
@@ -309,7 +309,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
         }
         const invite = activeBridgeInvite(collaborateMatch[1]);
         if (!invite || invite.kind !== "human") {
-          bridgeText(response, 410, "此拾作协作邀请已使用或已过期。\n");
+          bridgeText(response, 410, "此ContextSail协作邀请已使用或已过期。\n");
           return;
         }
         const nonce = randomBytes(18).toString("base64url");
@@ -319,7 +319,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
       if (request.method === "POST" && collaborateClaimMatch) {
         const invite = activeBridgeInvite(collaborateClaimMatch[1]);
         if (!invite || invite.kind !== "human") {
-          bridgeText(response, 410, "此拾作协作邀请已使用或已过期。\n");
+          bridgeText(response, 410, "此ContextSail协作邀请已使用或已过期。\n");
           return;
         }
         // 只有用户点击进入后才领取邀请，避免聊天软件的链接预览消耗一次性访问资格。
@@ -331,7 +331,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
       }
       if (request.method === "GET" && requestUrl.pathname === "/v1/collaboration") {
         if (!collaborationClient?.boardId) {
-          bridgeText(response, 401, "此拾作协作会话已失效，请向白板主人重新获取邀请。\n");
+          bridgeText(response, 401, "此ContextSail协作会话已失效，请向白板主人重新获取邀请。\n");
           return;
         }
         const nonce = randomBytes(18).toString("base64url");
@@ -383,7 +383,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
       if (request.method === "GET" && inviteMatch) {
         const invite = activeBridgeInvite(inviteMatch[1]);
         if (!invite || invite.kind !== "codex") {
-          bridgeText(response, 410, "此拾作连接邀请已使用或已过期。\n");
+          bridgeText(response, 410, "此ContextSail连接邀请已使用或已过期。\n");
           return;
         }
         bridgeText(response, 200, inviteMarkdown(invite), "text/markdown; charset=utf-8");
@@ -392,14 +392,14 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
       if (request.method === "POST" && installMatch) {
         const invite = activeBridgeInvite(installMatch[1]);
         if (!invite || invite.kind !== "codex") {
-          bridgeText(response, 410, "此拾作连接邀请已使用或已过期。\n");
+          bridgeText(response, 410, "此ContextSail连接邀请已使用或已过期。\n");
           return;
         }
         // 领取安装脚本前先作废邀请，避免并发请求重复取得长期连接令牌。
         bridgeInvites.delete(invite.code);
         const currentConfig = readActiveBridgeConfig(bridgeConfigPath);
         if (!currentConfig?.lan) {
-          bridgeText(response, 410, "拾作内网共享已停止。\n");
+          bridgeText(response, 410, "ContextSail内网共享已停止。\n");
           return;
         }
         registerBridgeClient(bridgeConfigPath, invite);
@@ -417,7 +417,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
       if (request.method === "GET" && requestUrl.pathname === "/v1/status") {
         bridgeJson(response, 200, {
           ok: true,
-          product: "拾作",
+          product: "ContextSail",
           hostVersion: HOST_VERSION,
           scope: activeConfig.lan ? "lan" : "local",
           boardId: client.boardId,
@@ -526,10 +526,10 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
     bridgeInvites.set(code, invite);
     bridgeInvites.set(collaborationCode, collaborationInvite);
     const inviteText = [
-      "连接我的拾作白板（同一可信内网，10 分钟内一次有效）。",
+      "连接我的ContextSail白板（同一可信内网，10 分钟内一次有效）。",
       "请在 Codex 终端直接执行下面命令，不要用 Chrome 打开链接：",
       `curl -fsS -X POST ${shellQuote(`${inviteUrl}/install`)} | zsh`,
-      "安装完成后重启 Codex，再说“读取拾作白板”。"
+      "安装完成后重启 Codex，再说“读取ContextSail白板”。"
     ].join("\n");
     log("one-time bridge invite created", { scope: "lan", port: config.port, expiresAt: invite.expiresAt });
     send({
@@ -559,7 +559,7 @@ export function createCollaborationBridge({ bridgeConfigPath, hostDirectory, ins
   function shutdownCollaborationBridge() {
     for (const pending of pluginRequests.values()) {
       clearTimeout(pending.timer);
-      pending.reject(new Error("Chrome 已断开拾作插件桥接"));
+      pending.reject(new Error("Chrome 已断开ContextSail插件桥接"));
     }
     pluginRequests.clear();
     bridgeInvites.clear();

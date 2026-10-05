@@ -1,4 +1,4 @@
-# 拾作 Skill reference
+# ContextSail Skill reference
 
 ## Deterministic setup commands
 
@@ -17,7 +17,7 @@ sh scripts/shizuo.sh delete-off
 Configure a second Codex client on the same trusted private network:
 
 1. On the board owner's canvas, click “邀请协作” and expand “连接对方的 Codex”.
-2. Copy that instruction into the other Codex and explicitly ask it to connect. The primary browser link is for a person to join the live board without installing 拾作.
+2. Copy that instruction into the other Codex and explicitly ask it to connect. The primary browser link is for a person to join the live board without installing ContextSail.
 3. That Codex runs the invitation's terminal command directly without opening Chrome, then restarts. The invitation expires after 10 minutes or its first successful claim.
 
 The owner sees connected people and Codex clients, presence, comments, and live read/write activity on the canvas. Browser collaborators can create, edit, move, resize, and connect cards immediately without per-change confirmation; owners can still downgrade a person to ask-each-time or read-only. Each invite has an independent token restricted to the board that was open when sharing started; “本次会话允许” remains available for Codex clients and expires when sharing stops.
@@ -45,7 +45,7 @@ The one-time installer registers a separate, board-scoped `shizuo-lan` MCP. Set 
 
 ## Examples
 
-- “读取拾作里项目复盘白板”：list, resolve the board ID, then get the board page by page.
+- “读取ContextSail里项目复盘白板”：list, resolve the board ID, then get the board page by page.
 - “把这段结论放进白板”：resolve the target board, create a text/document card, then re-read it.
 - “让 A 的内容流向任务 B”：read both card IDs, connect A to B, then verify B's `relationSourceIds`.
 - “让同事在内网用 Codex 访问”：prefer the canvas one-time invite; use `lan-host` plus `lan-client` only as a manual fallback.

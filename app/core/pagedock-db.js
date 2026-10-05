@@ -92,8 +92,8 @@
         if (!pageChatStore.indexNames.contains("updatedAt")) pageChatStore.createIndex("updatedAt", "updatedAt");
       };
       request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error || new Error(ui("无法打开拾作数据库")));
-      request.onblocked = () => reject(new Error(ui("拾作数据库升级被其他页面阻塞")));
+      request.onerror = () => reject(request.error || new Error(ui("无法打开ContextSail数据库")));
+      request.onblocked = () => reject(new Error(ui("ContextSail数据库升级被其他页面阻塞")));
     });
     return databasePromise;
   }
@@ -873,18 +873,18 @@
       ...card,
       permissions: {
         ...(card.permissions || {}),
-        // 拾作备份文件是内容，不是授权载体。
+        // ContextSail备份文件是内容，不是授权载体。
         granted: []
       }
     };
   }
   async function importData(payload) {
     if (!payload || !["pagedock-board", "pagedock-backup"].includes(payload.kind)) {
-      throw new Error(ui("不是有效的拾作备份文件"));
+      throw new Error(ui("不是有效的ContextSail备份文件"));
     }
     if (payload.kind === "pagedock-board") {
       const source = payload.board;
-      if (!source) throw new Error(ui("拾作备份文件缺少白板数据"));
+      if (!source) throw new Error(ui("ContextSail备份文件缺少白板数据"));
       const id = makeId("board");
       const idMap = new Map((source.items || []).map(item => [String(item.id), makeId()]));
       const items = (source.items || []).map(item => {

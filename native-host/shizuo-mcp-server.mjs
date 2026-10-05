@@ -19,12 +19,12 @@ const clientName = String(process.env.SHIZUO_CLIENT_NAME || os.hostname() || "Co
 const tools = [
   {
     name: "shizuo_list_boards",
-    description: "列出拾作中的白板和卡片数量。",
+    description: "列出ContextSail中的白板和卡片数量。",
     inputSchema: { type: "object", properties: {}, additionalProperties: false }
   },
   {
     name: "shizuo_get_board",
-    description: "读取一个拾作白板中的卡片内容；内容较多时使用 nextOffset 继续读取。",
+    description: "读取一个ContextSail白板中的卡片内容；内容较多时使用 nextOffset 继续读取。",
     inputSchema: {
       type: "object",
       properties: {
@@ -53,7 +53,7 @@ const tools = [
   },
   {
     name: "shizuo_create_board",
-    description: "创建一个新的拾作白板。",
+    description: "创建一个新的ContextSail白板。",
     inputSchema: {
       type: "object",
       properties: { name: { type: "string", maxLength: 80 } },
@@ -63,7 +63,7 @@ const tools = [
   },
   {
     name: "shizuo_create_card",
-    description: "在拾作白板中创建文字、文档、代码、图片、链接、页面或任务卡片。",
+    description: "在ContextSail白板中创建文字、文档、代码、图片、链接、页面或任务卡片。",
     inputSchema: {
       type: "object",
       properties: {
@@ -92,7 +92,7 @@ const tools = [
   },
   {
     name: "shizuo_update_card",
-    description: "更新拾作卡片的正文、地址、语言或画布位置尺寸。",
+    description: "更新ContextSail卡片的正文、地址、语言或画布位置尺寸。",
     inputSchema: {
       type: "object",
       properties: {
@@ -147,7 +147,7 @@ const tools = [
   },
   {
     name: "shizuo_watch_events",
-    description: "等待拾作白板的新协作消息、活动或在场状态；用返回的 cursor 继续订阅。",
+    description: "等待ContextSail白板的新协作消息、活动或在场状态；用返回的 cursor 继续订阅。",
     inputSchema: {
       type: "object",
       properties: {
@@ -170,7 +170,7 @@ const tools = [
   },
   {
     name: "shizuo_report_task",
-    description: "向拾作上报当前 Codex 任务的用户可读状态和最终结果；不要上报隐藏推理、令牌或敏感日志。",
+    description: "向ContextSail上报当前 Codex 任务的用户可读状态和最终结果；不要上报隐藏推理、令牌或敏感日志。",
     inputSchema: {
       type: "object",
       properties: {
@@ -190,7 +190,7 @@ const tools = [
   },
   {
     name: "shizuo_delete_cards",
-    description: "删除拾作卡片。只有桥接配置显式开启删除权限时可用。",
+    description: "删除ContextSail卡片。只有桥接配置显式开启删除权限时可用。",
     inputSchema: {
       type: "object",
       properties: {
@@ -221,7 +221,7 @@ const methodByTool = Object.freeze({
 });
 
 async function bridgeRpc(method, params) {
-  if (!bridgeToken) throw new Error("缺少拾作连接令牌；请先运行 configure-bridge.mjs");
+  if (!bridgeToken) throw new Error("缺少ContextSail连接令牌；请先运行 configure-bridge.mjs");
   const response = await fetch(`${bridgeUrl}/v1/rpc`, {
     method: "POST",
     headers: {
@@ -234,7 +234,7 @@ async function bridgeRpc(method, params) {
     signal: AbortSignal.timeout(65_000)
   });
   const payload = await response.json().catch(() => ({}));
-  if (!response.ok || !payload.ok) throw new Error(payload.error || `拾作桥接返回 HTTP ${response.status}`);
+  if (!response.ok || !payload.ok) throw new Error(payload.error || `ContextSail桥接返回 HTTP ${response.status}`);
   return payload.result;
 }
 
@@ -268,7 +268,7 @@ async function handle(message) {
   if (message.method === "tools/call") {
     const toolName = String(message.params?.name || "");
     const method = methodByTool[toolName];
-    if (!method) throw new Error(`未知的拾作工具：${toolName}`);
+    if (!method) throw new Error(`未知的ContextSail工具：${toolName}`);
     try {
       const result = await bridgeRpc(method, message.params?.arguments || {});
       write({ jsonrpc: "2.0", id: message.id, result: { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] } });

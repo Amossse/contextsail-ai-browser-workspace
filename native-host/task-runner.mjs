@@ -178,7 +178,7 @@ export function createTaskRunner(dependencies) {
       agyConversationId: "",
       agyLogDirectory,
       agyLogPath,
-      boardTitle: message.page?.title || "拾作-AI-Video",
+      boardTitle: message.page?.title || "ContextSail-AI-Video",
       lastStage: "",
       lastActivity: ""
     };

@@ -442,7 +442,7 @@ function materializeImages(message, id, targetDirectory = "") {
 
 function materializeVideo(message, targetDirectory) {
   const matched = String(message.video || "").match(/^data:video\/mp4;base64,([a-z0-9+/=\s]+)$/i);
-  if (!matched) throw new Error("只支持拾作生成的 MP4 视频");
+  if (!matched) throw new Error("只支持ContextSail生成的 MP4 视频");
   const bytes = Buffer.from(matched[1].replace(/\s/g, ""), "base64");
   if (!bytes.length) throw new Error("视频内容为空");
   if (bytes.length > MAX_VIDEO_BYTES) throw new Error("视频超过 48 MB，无法添加口播");
@@ -707,7 +707,7 @@ function videoStageTimeoutSelfTest() {
     ...Object.values(VIDEO_STAGE_TIMEOUT_MS)
   ];
   if (configuredTimeouts.some(timeoutMs => timeoutMs !== TASK_TIMEOUT_MS)) {
-    throw new Error("拾作用户任务超时没有统一为 24 小时");
+    throw new Error("ContextSail用户任务超时没有统一为 24 小时");
   }
   return "ok";
 }

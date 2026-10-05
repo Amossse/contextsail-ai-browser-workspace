@@ -24,7 +24,7 @@ async function backupAllBoards() {
   const payload = await db.exportAll();
   downloadBlob(
     new Blob([JSON.stringify(payload)], { type: "application/json" }),
-    ui("拾作-backup-{0}.pagedock", timestamp())
+    ui("ContextSail-backup-{0}.pagedock", timestamp())
   );
   setStatus(ui("已备份全部白板"));
 }
@@ -149,7 +149,7 @@ async function renderBoardCanvas() {
       context.fillText("▶", x + item.width / 2 - 12, y + item.height / 2);
       context.fillStyle = "#aeb8c5";
       context.font = "12px sans-serif";
-      context.fillText(ui("视频请在拾作白板中播放"), x + 16, y + item.height - 18);
+      context.fillText(ui("视频请在ContextSail白板中播放"), x + 16, y + item.height - 18);
     } else if (item.type === "page") {
       context.fillStyle = "#f7f3ed";
       context.fillRect(x + 10, y + 40, item.width - 20, Math.max(80, item.height - 60));
@@ -158,7 +158,7 @@ async function renderBoardCanvas() {
       wrapCanvasText(context, item.src, x + 18, y + 64, item.width - 36, 21, 3);
       context.fillStyle = "#68727f";
       context.font = "12px sans-serif";
-      context.fillText(ui("网页请在拾作白板中浏览"), x + 18, y + 128);
+      context.fillText(ui("网页请在ContextSail白板中浏览"), x + 18, y + 128);
     } else if (item.type === "terminal") {
       context.fillStyle = "#211d1a";
       context.fillRect(x + 10, y + 40, item.width - 20, Math.max(80, item.height - 60));
@@ -237,7 +237,7 @@ function buildJpegPdf(jpegBytes, pixelWidth, pixelHeight) {
     parts.forEach(part => typeof part === "string" ? text(part) : add(part));
     text("\nendobj\n");
   };
-  text("%PDF-1.7\n%Shizuo\n");
+  text("%PDF-1.7\n%ContextSail\n");
   const pageScale = Math.min(0.75, 14000 / pixelWidth, 14000 / pixelHeight);
   const width = Number((pixelWidth * pageScale).toFixed(3));
   const height = Number((pixelHeight * pageScale).toFixed(3));

@@ -1,4 +1,4 @@
-# Shizuo 2.24.6
+# ContextSail 2.24.6
 
 The home page now focuses on finding and opening saved work.
 

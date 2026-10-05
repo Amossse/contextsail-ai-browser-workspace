@@ -74,4 +74,4 @@ assert.equal(local.lan, false);
 assert.equal(local.clients.length, 0, "停止共享必须让全部远端接入者失效");
 fs.rmSync(directory, { recursive: true, force: true });
 
-console.log("拾作桥接鉴权契约验证通过");
+console.log("ContextSail桥接鉴权契约验证通过");

@@ -1,6 +1,6 @@
 # Architecture
 
-拾作按运行边界组织代码，而不是按页面或行数堆叠。首方运行时代码单文件不得超过 1000 行；`npm test` 会执行该契约。
+ContextSail按运行边界组织代码，而不是按页面或行数堆叠。首方运行时代码单文件不得超过 1000 行；`npm test` 会执行该契约。
 
 ## Extension runtime
 

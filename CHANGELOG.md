@@ -1,8 +1,15 @@
 # Changelog
 
-All notable changes to **拾作** are documented here.
+All notable changes to **ContextSail** are documented here.
 
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
+
+## [2.25.0] - 2026-10-05
+
+### Changed
+
+- Rebrand the product as ContextSail with a new sail icon and AI browser workspace positioning
+- Rename the public repository and release packages, update documentation and discovery metadata, and retain legacy storage and MCP identifiers for existing installations
 
 ## [Unreleased]
 
@@ -416,7 +423,7 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) an
 
 ### Changed
 
-- Rename the product to **拾作** and adopt the brand line “收集、理解、创作” across Chrome surfaces, exports, local bridge messages, and current documentation
+- Rename the product to **ContextSail** and adopt the brand line “收集、理解、创作” across Chrome surfaces, exports, local bridge messages, and current documentation
 - Keep existing `PageDockDB`, `com.pagedock.codex`, `.pagedock`, environment variables, and local install paths unchanged so existing boards and bridge installations remain compatible
 
 ## [2.18.0] — 2026-08-08

@@ -6,7 +6,7 @@ project_root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
 usage() {
   cat <<'EOF'
-拾作一键安装
+ContextSail一键安装
 
 用法：
   ./install.sh --core       安装白板、Codex 与 MCP（默认）
@@ -17,7 +17,7 @@ usage() {
 安装完成后运行：
   sh "$HOME/.codex/skills/shizuo/scripts/shizuo.sh" health
 
-先在 chrome://extensions 加载拾作，再运行：
+先在 chrome://extensions 加载ContextSail，再运行：
   ./install.sh --core
 
 安装器会自动识别当前扩展 ID。只有自动识别失败时才需要手动运行：
@@ -39,7 +39,7 @@ case "${1:-}" in
 esac
 
 [ "$(uname -s)" = "Darwin" ] || {
-  printf '%s\n' "拾作 Native Host 当前只支持 macOS。" >&2
+  printf '%s\n' "ContextSail Native Host 当前只支持 macOS。" >&2
   exit 1
 }
 command -v zsh >/dev/null 2>&1 || {

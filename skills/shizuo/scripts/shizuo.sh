@@ -23,7 +23,7 @@ redact_token() {
 }
 
 require_host() {
-  [ -f "$configurator" ] || fail "未安装拾作 Native Host，请先在插件项目运行 ./install.sh"
+  [ -f "$configurator" ] || fail "未安装ContextSail Native Host，请先在插件项目运行 ./install.sh"
 }
 
 register_mcp() {
@@ -65,13 +65,13 @@ case "$action" in
     require_host
     "$node_bin" "$configurator" --local --deny-delete | redact_token
     register_mcp shizuo "$(preferred_mcp)"
-    printf '%s\n' "请重新加载拾作并重启 Codex。"
+    printf '%s\n' "请重新加载ContextSail并重启 Codex。"
     ;;
   lan-host)
     require_host
     "$node_bin" "$configurator" --lan --deny-delete | redact_token
     register_mcp shizuo "$installed_mcp"
-    printf '%s\n' "请重新加载拾作，并从目标白板生成一次性邀请。"
+    printf '%s\n' "请重新加载ContextSail，并从目标白板生成一次性邀请。"
     ;;
   lan-client)
     [ -n "${SHIZUO_BRIDGE_URL:-}" ] && [ -n "${SHIZUO_BRIDGE_TOKEN:-}" ] || fail "请设置 SHIZUO_BRIDGE_URL 与 SHIZUO_BRIDGE_TOKEN"
@@ -89,17 +89,17 @@ case "$action" in
   delete-on)
     require_host
     "$node_bin" "$configurator" --allow-delete | redact_token
-    printf '%s\n' "删除权限已开启；请重新加载拾作。"
+    printf '%s\n' "删除权限已开启；请重新加载ContextSail。"
     ;;
   delete-off)
     require_host
     "$node_bin" "$configurator" --deny-delete | redact_token
-    printf '%s\n' "删除权限已关闭；请重新加载拾作。"
+    printf '%s\n' "删除权限已关闭；请重新加载ContextSail。"
     ;;
   disable)
     require_host
     "$node_bin" "$configurator" --disable | redact_token
-    printf '%s\n' "外部桥接已停用；请重新加载拾作。"
+    printf '%s\n' "外部桥接已停用；请重新加载ContextSail。"
     ;;
   help|-h|--help)
     usage

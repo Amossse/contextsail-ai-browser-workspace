@@ -389,7 +389,7 @@ function wireEvents() {
   boardNameEl.addEventListener("input", scheduleSave);
   boardNameEl.addEventListener("change", async () => {
     if (!currentBoard || currentBoard.id === db.INBOX_ID) return;
-    document.title = ui("{0} · 拾作", boardNameEl.value || ui("未命名白板"));
+    document.title = ui("{0} · ContextSail", boardNameEl.value || ui("未命名白板"));
     await saveBoardNow();
     notifyDataChanged([currentBoard.id], "rename-board");
   });
@@ -530,7 +530,7 @@ function wireEvents() {
 
 async function boot() {
   await ShizuoI18n.ready;
-  if (!db) throw new Error(ui("拾作数据库模块未载入"));
+  if (!db) throw new Error(ui("ContextSail数据库模块未载入"));
   wireEvents();
   await loadAiRuntime();
   const params = new URLSearchParams(location.search);
@@ -554,5 +554,5 @@ async function boot() {
 
 boot().catch(error => {
   console.error("[pagedock] boot failed", error);
-  setStatus(error?.message || ui("拾作载入失败"), true);
+  setStatus(error?.message || ui("ContextSail载入失败"), true);
 });

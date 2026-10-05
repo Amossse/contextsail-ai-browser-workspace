@@ -2,7 +2,7 @@
 
 Last updated: 2026-08-29
 
-拾作 (Shizuo) is a local-first browser extension. It has no analytics, advertising SDK, account system, or hosted data service operated by the project.
+ContextSail (ContextSail) is a local-first browser extension. It has no analytics, advertising SDK, account system, or hosted data service operated by the project.
 
 ## Data stored locally
 
@@ -17,7 +17,7 @@ Browser file handles are not included in portable exports. Use the extension's d
 
 ## When data can leave the browser
 
-拾作 makes no background analytics or advertising requests. Network or local-process activity occurs only for a capability you invoke:
+ContextSail makes no background analytics or advertising requests. Network or local-process activity occurs only for a capability you invoke:
 
 - **Page capture and page cards:** the extension reads the active page or a URL you explicitly authorize. Optional HTTP(S) host permission is requested for that origin.
 - **Codex tasks:** selected material and your prompt are sent through Chrome Native Messaging to your local Native Host, which invokes your existing Codex CLI. Codex network traffic and retention follow the Codex CLI and account settings; the extension never receives your Codex credentials.

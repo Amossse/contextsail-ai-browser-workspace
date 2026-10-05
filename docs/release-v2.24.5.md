@@ -1,4 +1,4 @@
-# Shizuo 2.24.5
+# ContextSail 2.24.5
 
 The first-run screen now uses the same broad content rhythm as an established workspace.
 

@@ -1,14 +1,16 @@
-# Shizuo · 拾作
+# ContextSail — AI Browser Workspace
 
-> **Turn scattered web research into answers you can check and revisit.** Collect source material, ask Codex about it, and keep the answers beside the originals.
+> **Your sources. Your canvas. Your AI.** A local-first Chrome extension that combines a web clipper, infinite canvas, and MCP bridge for Codex and Claude Code. Turn scattered research into answers you can check and revisit.
 
-[简体中文](README.zh-CN.md) · [Download](https://github.com/Amossse/shizuo-codex-workspace/releases/latest) · [Setup](#quick-start) · [Privacy](PRIVACY.md)
+[简体中文](README.zh-CN.md) · [Download](https://github.com/Amossse/contextsail-ai-browser-workspace/releases/latest) · [Setup](#quick-start) · [Privacy](PRIVACY.md)
 
-![Shizuo canvas connecting source material, a Codex task, and a visible result](docs/product-canvas-real.jpg)
+![ContextSail — collect web sources, ask AI with context, keep answers](docs/contextsail-banner.png)
 
-## Why Shizuo
+[![MIT license](https://img.shields.io/badge/license-MIT-1c3552)](LICENSE) [![Chrome extension](https://img.shields.io/badge/Chrome-extension-ff6849)](docs/local-codex-setup.md) [![Local first](https://img.shields.io/badge/data-local--first-1c3552)](PRIVACY.md)
 
-Comparing several articles usually means copying passages into a chat and finding the originals again later. Shizuo keeps the material and the conversation together:
+## Why ContextSail
+
+Comparing several articles usually means copying passages into a chat and finding the originals again later. ContextSail keeps the material and the conversation together:
 
 - Collect pages or selected passages with their source links.
 - Select the material and ask Codex to summarize, compare, or answer a question.
@@ -22,15 +24,15 @@ New installations use English. Change **Language** in the extension popup or **M
 
 ### 1. Install the extension
 
-1. Download and unzip the [latest release](https://github.com/Amossse/shizuo-codex-workspace/releases/latest).
+1. Download and unzip the [latest release](https://github.com/Amossse/contextsail-ai-browser-workspace/releases/latest).
 2. Open `chrome://extensions` or `edge://extensions` and enable **Developer mode**.
-3. Choose **Load unpacked**, select the extracted folder, and pin Shizuo.
+3. Choose **Load unpacked**, select the extracted folder, and pin ContextSail.
 
 You can now capture and organize content without Codex.
 
 ### 2. Capture your first item
 
-Open a new tab, paste a passage, then choose **开始收集 (Start collecting)**. Shizuo saves it and opens the board with that item selected. No board setup is needed.
+On the page you want to save, open the extension and collect the page or selected text. Open a new tab and choose **Open Inbox** to find it, or **New Board** to organize a project. You can also paste content inside a board.
 
 To keep an article's source, collect its text using the extension button or selection menu on the original page. Pasting a URL saves the link; it does not import the article body.
 
@@ -38,13 +40,13 @@ To keep an article's source, collect its text using the extension button or sele
 
 Select your material and choose **交给 AI (Ask AI)**. Connect Codex when you first want an answer; collection works without it.
 
-Install and sign in to the [Codex CLI](https://developers.openai.com/codex/cli), then run this once from the extracted Shizuo folder:
+Install and sign in to the [Codex CLI](https://developers.openai.com/codex/cli), then run this once from the extracted ContextSail folder:
 
 ```sh
 ./install.sh --core
 ```
 
-Reload Shizuo in `chrome://extensions`. The installer detects the unpacked extension automatically, registers the local Native Host and MCP, and verifies the bridge. See [local Codex setup](docs/local-codex-setup.md) if detection fails.
+Reload ContextSail in `chrome://extensions`. The installer detects the unpacked extension automatically, registers the local Native Host and MCP, and verifies the bridge. See [local Codex setup](docs/local-codex-setup.md) if detection fails.
 
 ## Try one real research task
 
@@ -61,7 +63,7 @@ Image generation, multi-step workflows, and other advanced tools remain in the m
 | Goal | Start here |
 | --- | --- |
 | Save a page or selection | Extension button or the selection menu |
-| Open the canvas | A new tab or **Open Shizuo** |
+| Open the canvas | A new tab or **Open ContextSail** |
 | Ask Codex to work on context | Select cards, then choose **Send to AI** |
 | Ask from the current page | Select text and choose **Ask Codex** |
 | Find previous work | Search boards, cards, and sources from Home |
@@ -78,4 +80,4 @@ Runtime code lives under `app/`; the constrained local bridge lives under `nativ
 
 ## License
 
-[MIT](LICENSE) © Shizuo Contributors
+[MIT](LICENSE) © ContextSail Contributors

@@ -1,6 +1,6 @@
-# Contributing to 拾作
+# Contributing to ContextSail
 
-Thanks for your interest in improving **拾作**! This document describes how to set up the project locally, the conventions we follow, and how to submit changes.
+Thanks for your interest in improving **ContextSail**! This document describes how to set up the project locally, the conventions we follow, and how to submit changes.
 
 ## Prerequisites
 

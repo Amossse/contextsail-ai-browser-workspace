@@ -7,10 +7,10 @@ async function registerContextMenus() {
       .filter(board => board.id !== PageDockDB.INBOX_ID)
       .slice(0, RECENT_BOARD_LIMIT);
     const collectionTypes = [
-      { type: "selection", title: ui("保存选中文字到拾作"), contexts: ["selection"] },
-      { type: "image", title: ui("保存图片到拾作"), contexts: ["image"] },
-      { type: "link", title: ui("保存链接到拾作"), contexts: ["link"] },
-      { type: "page", title: ui("保存当前页面到拾作"), contexts: ["page"] }
+      { type: "selection", title: ui("保存选中文字到ContextSail"), contexts: ["selection"] },
+      { type: "image", title: ui("保存图片到ContextSail"), contexts: ["image"] },
+      { type: "link", title: ui("保存链接到ContextSail"), contexts: ["link"] },
+      { type: "page", title: ui("保存当前页面到ContextSail"), contexts: ["page"] }
     ];
 
     await chrome.contextMenus.removeAll();

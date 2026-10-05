@@ -252,7 +252,7 @@ export function createTaskArtifacts(dependencies) {
     if (size > MAX_VIDEO_BYTES) throw new Error("生成的视频超过 48 MB，请减少圈选内容后重试");
     const bytes = fs.readFileSync(realVideoPath);
     const totalChunks = Math.ceil(bytes.length / VIDEO_CHUNK_BYTES);
-    const filename = `${String(job.boardTitle || "拾作-AI-Video").replace(/[<>:\"/\\|?*]/g, "_").slice(0, 80) || "拾作-AI-Video"}.mp4`;
+    const filename = `${String(job.boardTitle || "ContextSail-AI-Video").replace(/[<>:\"/\\|?*]/g, "_").slice(0, 80) || "ContextSail-AI-Video"}.mp4`;
     send({ type: "artifact-start", id, artifactType: "video", mimeType: "video/mp4", filename, size, totalChunks });
     for (let index = 0; index < totalChunks; index += 1) {
       const start = index * VIDEO_CHUNK_BYTES;
@@ -392,7 +392,7 @@ export function createTaskArtifacts(dependencies) {
       fs.rmSync(workDirectory, { recursive: true, force: true });
       throw error;
     }
-    const job = { child: null, cancelled: false, workDirectory, imageDirectory: "", mode: "video-post", boardTitle: message.page?.title || "拾作-口播视频" };
+    const job = { child: null, cancelled: false, workDirectory, imageDirectory: "", mode: "video-post", boardTitle: message.page?.title || "ContextSail-口播视频" };
     job.timer = setTimeout(() => {
       job.cancelled = true;
       terminateChildTree(job.child);
@@ -486,7 +486,7 @@ export function createTaskArtifacts(dependencies) {
     const normalizedExtension = extension === ".jpeg" ? ".jpg" : extension;
     const bytes = fs.readFileSync(realImagePath);
     const totalChunks = Math.ceil(bytes.length / IMAGE_CHUNK_BYTES);
-    const basename = String(job.boardTitle || "拾作-AI-Image").replace(/[<>:\"/\\|?*]/g, "_").slice(0, 80) || "拾作-AI-Image";
+    const basename = String(job.boardTitle || "ContextSail-AI-Image").replace(/[<>:\"/\\|?*]/g, "_").slice(0, 80) || "ContextSail-AI-Image";
     const filename = `${basename}${normalizedExtension}`;
     send({ type: "artifact-start", id, artifactType: "image", mimeType, filename, size, totalChunks });
     for (let index = 0; index < totalChunks; index += 1) {

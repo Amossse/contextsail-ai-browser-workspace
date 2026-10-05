@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>拾作</title>
+  <title>ContextSail</title>
   <link rel="stylesheet" href="../../styles/tokens.css" />
   <link rel="stylesheet" href="modules/whiteboard.css" />
   <link rel="stylesheet" href="../../../vendor/xterm/xterm.css" />
@@ -14,7 +14,7 @@
   <header id="topbar">
     <button class="brand-button" id="homeButton" type="button" aria-label="返回白板列表">
       <img class="brand-mark" src="../../../icons/icon48.png" alt="" />
-      <span class="brand-copy"><strong>拾作</strong><span>带着资料问 AI</span></span>
+      <span class="brand-copy"><strong>ContextSail</strong><span>带着资料问 AI</span></span>
     </button>
     <div id="boardToolbar" class="toolbar hidden">
       <div class="top-divider"></div>
@@ -309,11 +309,11 @@
     <div class="dialog-form">
       <h2>邀请协作</h2>
       <p>对方可在浏览器中实时查看和编辑当前白板。链接限同一可信内网，10 分钟内只能领取一次。</p>
-      <label class="share-invite-label"><span>浏览器协作链接</span><textarea class="share-invite-text share-link" id="shareBridgeText" readonly aria-label="拾作浏览器协作链接" placeholder="正在生成协作链接…"></textarea></label>
+      <label class="share-invite-label"><span>浏览器协作链接</span><textarea class="share-invite-text share-link" id="shareBridgeText" readonly aria-label="ContextSail浏览器协作链接" placeholder="正在生成协作链接…"></textarea></label>
       <details class="share-codex-details">
         <summary>连接对方的 Codex</summary>
         <p>将下面的指令交给对方 Codex，接入后只能访问当前白板。</p>
-        <textarea class="share-invite-text" id="shareCodexText" readonly aria-label="拾作 Codex 接入指令"></textarea>
+        <textarea class="share-invite-text" id="shareCodexText" readonly aria-label="ContextSail Codex 接入指令"></textarea>
         <div class="share-codex-actions"><button class="button" id="copyCodexShare" type="button" disabled>复制 Codex 指令</button></div>
       </details>
       <div class="share-invite-status" id="shareBridgeStatus" role="status" aria-live="polite"></div>
@@ -357,7 +357,7 @@
         <span id="languageNotice" class="ai-settings-note" role="status" aria-live="polite"></span>
         <label>默认 AI<select id="aiRuntimeSelect" aria-label="默认本地 AI"><option value="codex">Codex</option><option value="agy">AGY</option><option value="claude">Claude Code</option></select></label>
         <label>视频引擎<select id="selectionVideoEngine" aria-label="默认视频引擎"><option value="hyperframes">HyperFrames</option><option value="remotion">Remotion</option></select></label>
-        <span class="ai-settings-note">拾作会沿用这里的默认值；普通提问、总结和创作无需重复选择。</span>
+        <span class="ai-settings-note">ContextSail会沿用这里的默认值；普通提问、总结和创作无需重复选择。</span>
       </div>
       <div class="health-checks" id="healthCheckList"></div>
       <div class="dialog-actions"><button class="button" id="rerunHealthCheck" type="button">重新检查</button><button class="button" id="closeHealthCheck" type="button">关闭</button></div>
@@ -366,10 +366,10 @@
   <dialog id="connectionGuideDialog">
     <div class="dialog-form connection-guide">
       <h2 id="connectionGuideTitle">先连接本地 Codex</h2>
-      <p id="connectionGuideIntro">只需完成一次设置。拾作不会上传你的内容或 Codex 凭据。</p>
+      <p id="connectionGuideIntro">只需完成一次设置。ContextSail不会上传你的内容或 Codex 凭据。</p>
       <ol class="connection-guide-steps" id="connectionGuideSteps"></ol>
       <div class="connection-guide-command" id="connectionGuideCommand">
-        <span>在拾作扩展目录运行</span>
+        <span>在ContextSail扩展目录运行</span>
         <code id="connectionGuideCommandText"></code>
         <button class="button" id="copyConnectionGuideCommand" type="button">复制命令</button>
       </div>

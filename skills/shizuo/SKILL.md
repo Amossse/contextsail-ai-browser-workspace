@@ -1,22 +1,22 @@
 ---
 name: shizuo
-description: Connects Codex to the 拾作 Chrome extension, configures its local or trusted-LAN MCP bridge, and reads or operates whiteboards and cards. Use when the user mentions 拾作, shizuo MCP, whiteboard connection, LAN sharing, board/card operations, or asks Codex to work with content in the 拾作 plugin.
+description: Connects Codex to the ContextSail Chrome extension, configures its local or trusted-LAN MCP bridge, and reads or operates whiteboards and cards. Use when the user mentions ContextSail, shizuo MCP, whiteboard connection, LAN sharing, board/card operations, or asks Codex to work with content in the ContextSail plugin.
 ---
 
-# 拾作
+# ContextSail
 
 ## Quick start
 
 1. Resolve this skill directory and run `sh scripts/shizuo.sh health`.
 2. Prefer the available `shizuo_*` MCP tools for every whiteboard read or mutation.
-3. If the MCP is not registered, run `bash scripts/shizuo.sh local`, then tell the user to reload 拾作 and restart Codex.
+3. If the MCP is not registered, run `bash scripts/shizuo.sh local`, then tell the user to reload ContextSail and restart Codex.
 4. Never claim the current Codex session can use a newly registered MCP until its tools are actually available.
 
 ## Connection workflow
 
 - Default to `local`; it binds the host to `127.0.0.1` and keeps deletion disabled.
 - If the user provides a `/v1/join/<code>` invite and explicitly asks to connect, do not open it in Chrome. Run its one-time `curl -fsS -X POST '<invite>/install' | zsh` command directly in the terminal. Do not print the returned installer or embedded token.
-- Prefer the canvas “邀请协作” action: its browser link lets a person join the current board without installing 拾作, while the separate Codex instruction connects another Codex. Both are 10-minute, one-time, board-scoped invitations and keep deletion disabled.
+- Prefer the canvas “邀请协作” action: its browser link lets a person join the current board without installing ContextSail, while the separate Codex instruction connects another Codex. Both are 10-minute, one-time, board-scoped invitations and keep deletion disabled.
 - At the start of a remote collaboration turn, read `shizuo_list_messages`, create a stable task ID, and call `shizuo_report_task` with `phase: started`. Report meaningful user-visible stages with increasing revisions, refresh tasks longer than 60 seconds, then always report `completed`, `failed`, or `cancelled` with the concise final result before ending the turn.
 - Local Codex Desktop turn lifecycle is observed automatically by the Native Host and shown by the canvas pet. Keep explicit `shizuo_report_task` calls for remote turns, meaningful milestones, linked cards, and final results; automatic observation never exposes response text, hidden reasoning, logs, or credentials.
 - While actively collaborating, call `shizuo_watch_events` with the returned cursor and use `shizuo_send_message` for replies. Long polling does not wake a stopped Codex process.
@@ -44,7 +44,7 @@ description: Connects Codex to the 拾作 Chrome extension, configures its local
 
 ## Failure handling
 
-- If status says Chrome is disconnected, ask the user to reload 拾作 in `chrome://extensions` and keep Chrome running.
+- If status says Chrome is disconnected, ask the user to reload ContextSail in `chrome://extensions` and keep Chrome running.
 - If `codex mcp get shizuo` succeeds but no `shizuo_*` tools are loaded, restart Codex; do not re-register repeatedly.
 - If a LAN request fails, verify private-network reachability, URL, token, and host mode without printing the token.
 - See [REFERENCE.md](REFERENCE.md) for commands, tool mapping, and examples.

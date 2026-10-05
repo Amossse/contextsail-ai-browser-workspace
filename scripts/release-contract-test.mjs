@@ -42,4 +42,4 @@ assert.match(readme, /^## Quick start$/m);
 assert.match(readme, /README\.zh-CN\.md/);
 assert.match(read("README.zh-CN.md"), /^## 快速开始$/m);
 
-console.log(`拾作 ${version} 发布契约验证通过`);
+console.log(`ContextSail ${version} 发布契约验证通过`);

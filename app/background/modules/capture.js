@@ -48,7 +48,7 @@ async function captureCodexPageContext() {
     const limitedMarkdown = markdown.length > CODEX_PAGE_CONTENT_LIMIT
       ? ui(`{0}
 
-[拾作：网页内容超过分析上限，已截断]`, markdown.slice(0, CODEX_PAGE_CONTENT_LIMIT))
+[ContextSail：网页内容超过分析上限，已截断]`, markdown.slice(0, CODEX_PAGE_CONTENT_LIMIT))
       : markdown;
     return {
       title: extracted.title || tab.title || "",
@@ -129,7 +129,7 @@ async function capturePageCardContext(request) {
     const content = markdown.length > CODEX_PAGE_CONTENT_LIMIT
       ? ui(`{0}
 
-[拾作：网页内容超过分析上限，已截断]`, markdown.slice(0, CODEX_PAGE_CONTENT_LIMIT))
+[ContextSail：网页内容超过分析上限，已截断]`, markdown.slice(0, CODEX_PAGE_CONTENT_LIMIT))
       : markdown;
     console.info("[pagedock-page] page-card content collected", {
       tabId: tab.id,
@@ -450,7 +450,7 @@ function buildScreenshotPdfFilename(title) {
   }
   safeTitle = truncateUtf8(safeTitle, 160).replace(/[. ]+$/g, "") || "webpage";
   const stamp = screenshotTimestamp();
-  return ui("拾作/{0}-{1}.pdf", safeTitle, stamp);
+  return ui("ContextSail/{0}-{1}.pdf", safeTitle, stamp);
 }
 
 function truncateUtf8(value, maxBytes) {
@@ -483,7 +483,7 @@ async function downloadScreenshotPdf(dataUrl, title) {
     if (!/invalid filename/i.test(error?.message || "")) throw error;
 
     // 极端站点标题仍被平台拒绝时，使用纯 ASCII 文件名兜底，不让截图结果丢失。
-    const fallbackFilename = ui("拾作-{0}.pdf", screenshotTimestamp());
+    const fallbackFilename = ui("ContextSail-{0}.pdf", screenshotTimestamp());
     console.warn("[capture-screenshot] retrying with fallback filename", {
       rejectedFilename: filename,
       fallbackFilename

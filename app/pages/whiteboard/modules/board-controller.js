@@ -561,7 +561,7 @@ async function openBoard(boardId, updateUrl = true) {
   selectedIds.clear();
   setView("board");
   if (updateUrl) history.pushState({}, "", `${location.pathname}?board=${encodeURIComponent(board.id)}`);
-  document.title = ui("{0} · 拾作", board.name);
+  document.title = ui("{0} · ContextSail", board.name);
   boardNameEl.value = board.name;
   boardNameEl.readOnly = board.id === db.INBOX_ID;
   renderAllItems();
@@ -614,7 +614,7 @@ function isEditableClipboardTarget(target) {
 
 async function handlePaste(event) {
   // 输入框、文档/代码编辑器和 xterm 的隐藏 textarea 必须优先使用浏览器原生粘贴。
-  // 只有焦点位于非编辑区域时，拾作才把剪贴板内容转换成白板卡片。
+  // 只有焦点位于非编辑区域时，ContextSail才把剪贴板内容转换成白板卡片。
   if (isEditableClipboardTarget(event.target)) return;
   if (!currentBoard) {
     if (await addClipboardToInbox(event)) {
@@ -687,7 +687,7 @@ function handleCopy(event) {
   const selectedText = selection && !selection.isCollapsed ? selection.toString() : "";
   const editingText = isEditableClipboardTarget(event.target);
   if (editingText) return;
-  // 显式覆盖拾作自定义卡片格式，避免文字复制后再次粘贴时仍命中整卡片数据。
+  // 显式覆盖ContextSail自定义卡片格式，避免文字复制后再次粘贴时仍命中整卡片数据。
   if (selectedText) {
     event.clipboardData.clearData();
     event.clipboardData.setData("text/plain", selectedText);

@@ -1,14 +1,14 @@
-# 拾作 · Shizuo
+# ContextSail — AI 浏览器工作台
 
-> **把散落的网页资料，整理成有来源、能继续追问的答案。** 收集材料，选中后问 Codex，回答和原文留在一起。
+> **资料在手，AI 随行。** 本地优先的 Chrome 扩展，集网页剪藏、无限画布和 MCP 桥接于一体，支持 Codex 与 Claude Code。收集材料后提问，回答和原文留在一起。
 
-[English](README.md) · [下载最新版本](https://github.com/Amossse/shizuo-codex-workspace/releases/latest) · [快速开始](#快速开始) · [隐私](PRIVACY.md)
+[English](README.md) · [下载最新版本](https://github.com/Amossse/contextsail-ai-browser-workspace/releases/latest) · [快速开始](#快速开始) · [隐私](PRIVACY.md)
 
-![拾作画布：素材、任务和结果保持连线](docs/product-canvas-real.jpg)
+![ContextSail：收集网页资料，带着上下文问 AI，保存答案](docs/contextsail-banner.png)
 
-## 为什么是拾作
+## 为什么是ContextSail
 
-看完几篇文章，想比较它们的观点，往往要把内容逐段复制进聊天窗口。过几天想接着研究，又得重新找原文。拾作把材料和对话保存在一起：
+看完几篇文章，想比较它们的观点，往往要把内容逐段复制进聊天窗口。过几天想接着研究，又得重新找原文。ContextSail把材料和对话保存在一起：
 
 - 收集网页正文或选中的段落，保留来源链接。
 - 选中材料，让 Codex 总结、比较观点，或回答你的问题。
@@ -22,15 +22,15 @@
 
 ### 1. 安装扩展
 
-1. 下载并解压[最新发布包](https://github.com/Amossse/shizuo-codex-workspace/releases/latest)。
+1. 下载并解压[最新发布包](https://github.com/Amossse/contextsail-ai-browser-workspace/releases/latest)。
 2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。
-3. 点击“加载已解压的扩展程序”，选择解压目录，并固定拾作。
+3. 点击“加载已解压的扩展程序”，选择解压目录，并固定ContextSail。
 
 现在就可以收集和整理内容，不依赖 Codex。
 
 ### 2. 放入第一条内容
 
-打开新标签页，粘贴一段资料，点击“开始收集”。拾作会保存资料并打开白板，选中刚放入的内容，不需要先建白板。
+在原网页打开扩展，收集正文或选中的文字。打开新标签页，点击“打开收件箱”找到材料，或点击“新建白板”整理一个项目。也可以在白板内直接粘贴内容。
 
 要保留文章来源，请在原网页通过扩展按钮或选区菜单收集正文。直接粘贴网址只会保存链接，不会自动导入全文。
 
@@ -38,13 +38,13 @@
 
 选中材料，点击“交给 AI”。第一次需要回答时再连接 Codex；收集材料本身不需要连接。
 
-安装并登录 [Codex CLI](https://developers.openai.com/codex/cli)，然后在解压后的拾作目录运行一次：
+安装并登录 [Codex CLI](https://developers.openai.com/codex/cli)，然后在解压后的ContextSail目录运行一次：
 
 ```sh
 ./install.sh --core
 ```
 
-回到 `chrome://extensions` 重新加载拾作。安装器会自动识别扩展 ID、注册本地 Native Host 和 MCP，并验证桥接。识别失败时查看[连接本地 Codex](docs/local-codex-setup.zh-CN.md)。
+回到 `chrome://extensions` 重新加载ContextSail。安装器会自动识别扩展 ID、注册本地 Native Host 和 MCP，并验证桥接。识别失败时查看[连接本地 Codex](docs/local-codex-setup.zh-CN.md)。
 
 ## 用三篇文章试一次
 
@@ -61,7 +61,7 @@
 | 想做什么 | 从哪里开始 |
 | --- | --- |
 | 保存页面或选区 | 扩展按钮或选区菜单 |
-| 打开画布 | 新标签页或“打开拾作” |
+| 打开画布 | 新标签页或“打开ContextSail” |
 | 让 Codex 处理素材 | 选中卡片后点击“交给 AI” |
 | 在当前网页提问 | 选中文字后点击“问问 Codex” |
 | 找回以前内容 | 在首页搜索白板、卡片和来源 |
@@ -78,4 +78,4 @@ npm test
 
 ## License
 
-[MIT](LICENSE) © 拾作 Contributors
+[MIT](LICENSE) © ContextSail Contributors

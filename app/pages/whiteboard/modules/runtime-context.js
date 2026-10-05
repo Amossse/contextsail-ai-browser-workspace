@@ -486,13 +486,13 @@ function standaloneWhiteboardTask() {
 }
 
 function safeFilename(value) {
-  return String(value || ui("拾作"))
+  return String(value || ui("ContextSail"))
     .normalize("NFKC")
     .replace(/[\p{Cc}\p{Cf}\p{Cs}]/gu, "")
     .replace(/[<>:"/\\|?*]/g, "_")
     .replace(/\s+/g, " ")
     .trim()
-    .slice(0, 100) || ui("拾作");
+    .slice(0, 100) || ui("ContextSail");
 }
 
 function normalizedPageUrl(value) {

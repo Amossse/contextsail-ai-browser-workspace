@@ -1,4 +1,4 @@
-# Shizuo 2.24.4
+# ContextSail 2.24.4
 
 This release removes several small but persistent friction points in everyday board management.
 

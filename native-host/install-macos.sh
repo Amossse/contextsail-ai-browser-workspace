@@ -66,7 +66,7 @@ if [[ -z "$extension_id" ]]; then
   fi
 fi
 if [[ -z "$extension_id" ]]; then
-  print -u2 "没有检测到当前目录对应的拾作扩展。"
+  print -u2 "没有检测到当前目录对应的ContextSail扩展。"
   print -u2 "请先在 chrome://extensions 加载此文件夹，再重新运行 ./install.sh $profile。"
   print -u2 "仍无法识别时，可复制扩展 ID 后运行："
   print -u2 "PAGEDOCK_EXTENSION_ID=你的扩展ID ./install.sh $profile"
@@ -189,7 +189,7 @@ chmod 755 "$host_launcher"
 const [name, hostPath, extensionId] = process.argv.slice(2);
 process.stdout.write(JSON.stringify({
   name,
-  description: "拾作 local task bridge",
+  description: "ContextSail local task bridge",
   path: hostPath,
   type: "stdio",
   allowed_origins: [`chrome-extension://${extensionId}/`]
@@ -228,7 +228,7 @@ fi
   PAGEDOCK_SELF_TEST_PROFILE="${profile#--}" \
   "$node_bin" "$host_script" --self-test
 print
-print "拾作 Codex Host 已安装：$manifest_path"
+print "ContextSail Codex Host 已安装：$manifest_path"
 print "安装档位：${profile#--}"
 print "Codex 编码工作区：$coding_workspace_dir"
 print "AGY CLI：${agy_bin:-未安装（可选）}"
@@ -243,5 +243,5 @@ fi
 print "终端 Python：${python_bin:-未配置（可稍后运行 ./install.sh --terminal）}"
 print "Codex MCP：$mcp_server"
 print "Codex Skill：$skill_install_root"
-print "请在 chrome://extensions 重新加载拾作，然后运行："
+print "请在 chrome://extensions 重新加载ContextSail，然后运行："
 print "sh ${(q)skill_install_root}/scripts/shizuo.sh health"

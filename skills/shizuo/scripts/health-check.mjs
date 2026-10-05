@@ -79,9 +79,9 @@ if (config?.token) {
       signal: AbortSignal.timeout(2_000)
     });
     const payload = await response.json().catch(() => ({}));
-    add("bridge", "拾作桥接", response.ok && payload.ok ? "pass" : "fail", response.ok && payload.ok ? `${payload.scope || "local"} · host ${payload.hostVersion || "unknown"}` : payload.error || `HTTP ${response.status}`, true);
+    add("bridge", "ContextSail桥接", response.ok && payload.ok ? "pass" : "fail", response.ok && payload.ok ? `${payload.scope || "local"} · host ${payload.hostVersion || "unknown"}` : payload.error || `HTTP ${response.status}`, true);
   } catch (error) {
-    add("bridge", "拾作桥接", "fail", `未连接：${error.message}`, true);
+    add("bridge", "ContextSail桥接", "fail", `未连接：${error.message}`, true);
   }
 }
 
@@ -92,7 +92,7 @@ const payload = {
   checkedAt: new Date().toISOString(),
   checks,
   recommendations: [
-    requiredFailures.length ? "在 chrome://extensions 确认拾作显示的扩展 ID；用该 ID 运行 PAGEDOCK_EXTENSION_ID=你的扩展ID ./install.sh --core 后重新加载拾作。" : "核心能力已就绪。",
+    requiredFailures.length ? "在 chrome://extensions 确认ContextSail显示的扩展 ID；用该 ID 运行 PAGEDOCK_EXTENSION_ID=你的扩展ID ./install.sh --core 后重新加载ContextSail。" : "核心能力已就绪。",
     !videoRequired && checks.some(check => check.id === "hyperframes" && check.status !== "pass") ? "如需视频创作，再运行 ./install.sh --video。" : "",
     !videoRequired && checks.some(check => check.id === "remotion" && check.status !== "pass") ? "如需视频创作，再运行 ./install.sh --video。" : "",
     !videoRequired && checks.some(check => check.id === "ffmpeg" && check.status !== "pass") ? "如需视频创作，再运行 ./install.sh --video。" : ""

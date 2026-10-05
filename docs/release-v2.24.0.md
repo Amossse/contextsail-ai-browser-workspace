@@ -1,6 +1,6 @@
-# Shizuo 2.24.0
+# ContextSail 2.24.0
 
-Shizuo is a local-first visual workspace for Codex: capture context from the browser or local files, organize it on an infinite canvas, and let local agents act with visible results.
+ContextSail is a local-first visual workspace for Codex: capture context from the browser or local files, organize it on an infinite canvas, and let local agents act with visible results.
 
 ## Highlights
 
@@ -14,7 +14,7 @@ Shizuo is a local-first visual workspace for Codex: capture context from the bro
 
 ## Install
 
-1. Download the source ZIP from this release and unzip it. Shizuo has no build step, so the tagged source is the loadable extension package.
+1. Download the source ZIP from this release and unzip it. ContextSail has no build step, so the tagged source is the loadable extension package.
 2. Open `chrome://extensions`, enable Developer mode, and choose Load unpacked.
 3. Select the unzipped folder.
 4. Optional: connect local Codex by following the README quick start.

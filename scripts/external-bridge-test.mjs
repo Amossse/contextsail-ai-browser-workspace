@@ -270,7 +270,7 @@ async function testMcpAdapter() {
   if (!listed.result?.tools?.some(tool => tool.name === "shizuo_report_task")) throw new Error("MCP 缺少 Codex 任务状态上报工具");
   child.stdin.write(`${JSON.stringify({ jsonrpc: "2.0", id: 3, method: "tools/call", params: { name: "shizuo_list_boards", arguments: {} } })}\n`);
   const called = await nextLine();
-  if (!called.result?.content?.[0]?.text?.includes("mcp-board")) throw new Error("MCP 没有调用拾作 HTTP 桥接");
+  if (!called.result?.content?.[0]?.text?.includes("mcp-board")) throw new Error("MCP 没有调用ContextSail HTTP 桥接");
   child.stdin.write(`${JSON.stringify({ jsonrpc: "2.0", id: 4, method: "tools/call", params: { name: "shizuo_report_task", arguments: { taskId: "task-2", phase: "completed", result: "整理完成", revision: 3 } } })}\n`);
   const reported = await nextLine();
   if (reported.result?.isError || !receivedMethods.includes("collaboration.task")) throw new Error("MCP 没有上报 Codex 任务结果");
@@ -281,4 +281,4 @@ async function testMcpAdapter() {
 
 await testNativeBridge();
 await testMcpAdapter();
-console.log("拾作 Codex 外部桥接验证通过");
+console.log("ContextSail Codex 外部桥接验证通过");

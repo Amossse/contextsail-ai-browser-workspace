@@ -71,14 +71,14 @@ export function detectExtensionIds(projectDirectory, roots = browserRoots()) {
 if (fileURLToPath(import.meta.url) === path.resolve(process.argv[1] || "")) {
   const projectDirectory = process.argv[2];
   if (!projectDirectory) {
-    console.error("用法：detect-extension-id.mjs <拾作扩展目录>");
+    console.error("用法：detect-extension-id.mjs <ContextSail扩展目录>");
     process.exit(2);
   }
   const matches = detectExtensionIds(projectDirectory);
   if (matches.length === 1) {
     process.stdout.write(`${matches[0]}\n`);
   } else if (matches.length > 1) {
-    console.error(`检测到多个拾作扩展 ID：${matches.join(", ")}`);
+    console.error(`检测到多个ContextSail扩展 ID：${matches.join(", ")}`);
     process.exit(2);
   } else {
     process.exit(1);

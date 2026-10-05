@@ -1,15 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "Shizuo",
-  "short_name": "Shizuo",
-  "version": "2.24.6",
+  "name": "ContextSail",
+  "short_name": "ContextSail",
+  "version": "2.25.0",
   "minimum_chrome_version": "116",
-  "description": "Collect web research, ask AI about it, and keep answers beside their sources for follow-up questions.",
-  "author": "拾作 Contributors",
+  "description": "Local-first AI browser workspace. Clip web pages, organize sources on a canvas, and ask Codex or Claude Code with context.",
+  "author": "ContextSail Contributors",
   "permissions": ["activeTab", "scripting", "storage", "downloads", "offscreen", "contextMenus", "sidePanel", "nativeMessaging", "alarms"],
   "optional_host_permissions": ["http://*/*", "https://*/*"],
   "action": {
-    "default_title": "Shizuo — Ask AI with your sources",
+    "default_title": "ContextSail — Ask AI with your sources",
     "default_popup": "app/pages/popup/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

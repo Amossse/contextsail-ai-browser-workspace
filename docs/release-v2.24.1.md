@@ -1,6 +1,6 @@
-# Shizuo 2.24.1
+# ContextSail 2.24.1
 
-Shizuo 2.24.1 is a release-hardening update for the local-first visual Codex workspace.
+ContextSail 2.24.1 is a release-hardening update for the local-first visual Codex workspace.
 
 ## Highlights
 
@@ -13,10 +13,10 @@ Shizuo 2.24.1 is a release-hardening update for the local-first visual Codex wor
 
 ## Install
 
-1. Download `shizuo-codex-workspace-2.24.1.zip` from this release.
+1. Download `contextsail-ai-browser-workspace-2.24.1.zip` from this release.
 2. Optionally verify it with `SHA256SUMS.txt`.
 3. Unzip it, open `chrome://extensions`, enable Developer mode, and choose Load unpacked.
-4. Select the unzipped `shizuo-codex-workspace-2.24.1` folder.
+4. Select the unzipped `contextsail-ai-browser-workspace-2.24.1` folder.
 5. Optional: connect local Codex by following the README quick start.
 
 The release archive contains only install/runtime files and public policy documents. Tests, GitHub configuration, development screenshots, and local files are not included.
