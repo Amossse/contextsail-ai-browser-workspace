@@ -81,6 +81,23 @@
     .message.user .message-body { background: var(--accent-soft); }
     .message-quote { width: min(92%, 310px); max-height: 82px; margin: 0; padding: 7px 9px 7px 11px; overflow: auto; border-left: 3px solid #c58576; border-radius: 0 8px 8px 0; background: #fff7ee; color: var(--muted); font-size: 10px; line-height: 1.55; overflow-wrap: anywhere; white-space: pre-wrap; user-select: text; }
     .message.error .message-body { border-color: #e2aaaa; color: var(--danger); }
+    .message-body.rich-text { min-width: 0; white-space: normal; overflow-x: auto; }
+    .rich-text > :first-child { margin-top: 0; }
+    .rich-text > :last-child { margin-bottom: 0; }
+    .rich-text p, .rich-text ul, .rich-text ol, .rich-text blockquote, .rich-text pre, .rich-text table { margin: .7em 0; }
+    .rich-text h1, .rich-text h2, .rich-text h3, .rich-text h4, .rich-text h5, .rich-text h6 { margin: 1em 0 .5em; line-height: 1.4; font-weight: 700; }
+    .rich-text h1 { font-size: 1.5em; } .rich-text h2 { font-size: 1.3em; } .rich-text h3 { font-size: 1.15em; }
+    .rich-text ul, .rich-text ol { padding-left: 1.6em; } .rich-text li + li { margin-top: .3em; }
+    .rich-text blockquote { margin-inline: 0; padding: .3em .9em; border-left: 3px solid var(--line); color: var(--muted); }
+    .rich-text pre { max-width: 100%; overflow-x: auto; padding: 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper-2); white-space: pre; }
+    .rich-text code { padding: .1em .3em; border-radius: 3px; background: var(--paper-2); font: .9em/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .rich-text pre code { padding: 0; background: transparent; }
+    .rich-text table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
+    .rich-text th, .rich-text td { padding: 6px 9px; border: 1px solid var(--line); text-align: left; }
+    .rich-text th { background: var(--paper-2); }
+    .rich-text a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+    .rich-text a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .rich-text hr { margin: 1em 0; border: 0; border-top: 1px solid var(--line); }
     .progress { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
     .progress::before { content: ""; width: 12px; height: 12px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
     .compose { flex: none; display: grid; gap: 7px; padding: 10px; border-top: 1px solid var(--line); background: var(--paper-2); }
@@ -433,7 +450,7 @@
       label.textContent = message.role === "user" ? ui("你") : message.role === "error" ? ui("未完成") : "Codex";
       const body = document.createElement("div");
       body.className = "message-body";
-      body.textContent = message.text;
+      renderMessageBody(body, message);
       article.appendChild(label);
       if (message.quote) {
         const quote = document.createElement("blockquote");
@@ -457,6 +474,35 @@
       messagesEl.appendChild(progress);
     }
     requestAnimationFrame(() => { messagesEl.scrollTop = messagesEl.scrollHeight; });
+  }
+
+  function renderMessageBody(body, message) {
+    const text = String(message.text || "");
+    // Quotes, user input and errors stay literal. Only assistant output is rich text.
+    if (message.role !== "assistant") { body.textContent = text; return; }
+    try {
+      if (!DOMPurify.isSupported) throw new Error("Sanitizer unavailable");
+      body.innerHTML = DOMPurify.sanitize(marked.parse(text, { gfm: true, breaks: false, async: false }), {
+        USE_PROFILES: { html: true },
+        SANITIZE_NAMED_PROPS: true,
+        // Render static HTML, not active documents or automatic remote resource loads.
+        FORBID_TAGS: ["style", "link", "base", "meta", "iframe", "object", "embed", "form", "input", "button", "textarea", "select", "img", "video", "audio", "source"],
+        FORBID_ATTR: ["style", "srcset", "background", "autofocus"]
+      });
+      body.querySelectorAll("a[href]").forEach(link => {
+        try {
+          const url = new URL(link.getAttribute("href"), location.href);
+          if (!["http:", "https:", "mailto:"].includes(url.protocol)) throw new Error("Unsafe link");
+          link.href = url.href;
+        } catch { link.removeAttribute("href"); return; }
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      });
+      body.classList.add("rich-text");
+    } catch (error) {
+      body.textContent = text;
+      console.warn("[shizuo-page-codex] Rich text rendering failed", { reason: error?.name || "Error" });
+    }
   }
 
   function pageText() {

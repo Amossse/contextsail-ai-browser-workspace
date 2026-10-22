@@ -4,6 +4,13 @@ All notable changes to **ContextSail** are documented here.
 
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [2.26.1] - 2026-10-22
+
+### Fixed
+
+- Render page-assistant answers as sanitized Markdown and HTML with headings, emphasis, lists, tables, code blocks, quotes, and safe external links
+- Keep user messages and quoted source text literal, retain plain-text fallback, and block executable HTML and automatic embedded resource loads
+
 ## [2.26.0] - 2026-10-22
 
 ### Added

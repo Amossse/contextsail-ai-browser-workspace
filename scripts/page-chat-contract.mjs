@@ -72,4 +72,53 @@ for (const language of ["zh-CN", "en"]) {
   assert(ui(panelHtml).includes(language === "en" ? '>Perspectives</button>' : '>观点</button>'));
 }
 
-console.log("页面 Codex URL 会话索引契约验证通过");
+const renderSource = content.match(/  function renderMessageBody\(body, message\) \{[\s\S]*?\n  \}/)[0];
+const manifest = JSON.parse(fs.readFileSync(new URL("../manifest.json", import.meta.url), "utf8"));
+for (const library of ["vendor/markdown/marked.umd.js", "vendor/markdown/purify.min.js"]) {
+  const scripts = manifest.content_scripts[0].js;
+  assert(scripts.indexOf(library) >= 0 && scripts.indexOf(library) < scripts.indexOf("app/content/content-codex.js"));
+}
+const rendering = { URL, location: { href: "https://example.com/article" }, console: { warn() {} } };
+vm.runInNewContext(fs.readFileSync(new URL("../vendor/markdown/marked.umd.js", import.meta.url), "utf8"), rendering);
+vm.runInNewContext(`${renderSource}; this.render = renderMessageBody;`, rendering);
+const mockBody = links => ({ textContent: "", innerHTML: "", classList: { add() {} }, querySelectorAll: () => links });
+const literal = "**原始文本** <b>不执行</b>";
+for (const role of ["user", "error"]) {
+  const element = mockBody([]);
+  rendering.render(element, { role, text: literal });
+  assert.equal(element.textContent, literal);
+  assert.equal(element.innerHTML, "");
+}
+let sanitized = false;
+rendering.DOMPurify = { isSupported: true, sanitize(html, options) {
+  assert.match(html, /<h2>Title<\/h2>/);
+  assert.match(html, /<strong>bold<\/strong>/);
+  assert.match(html, /<table>/);
+  assert.match(html, /<b>HTML<\/b>/);
+  assert.match(html, /&lt;script&gt;sample/);
+  assert.equal(options.USE_PROFILES.html, true);
+  assert.equal(options.SANITIZE_NAMED_PROPS, true);
+  for (const tag of ["style", "iframe", "form", "input", "img", "video", "audio"]) assert(options.FORBID_TAGS.includes(tag));
+  assert(options.FORBID_ATTR.includes("style"));
+  sanitized = true;
+  return "<p>Sanitized output</p>";
+} };
+const links = ["https://example.com/source", "javascript:alert(1)", "http://[invalid"].map(href => ({
+  getAttribute: () => href, removeAttribute(name) { this.removed = name; }
+}));
+const richBody = mockBody(links);
+const answer = "## Title\n\n**bold**\n\n| A | B |\n| - | - |\n| 1 | 2 |\n\n<b>HTML</b>\n\n```html\n<script>sample</script>\n```";
+rendering.render(richBody, { role: "assistant", text: answer });
+assert(sanitized);
+assert.equal(richBody.innerHTML, "<p>Sanitized output</p>", "Only sanitized markup may reach innerHTML");
+assert.equal(links[0].target, "_blank");
+assert.equal(links[0].rel, "noopener noreferrer");
+for (const link of links.slice(1)) assert.equal(link.removed, "href");
+for (const purifier of [undefined, { isSupported: false }, { isSupported: true, sanitize() { throw new Error("failure"); } }]) {
+  rendering.DOMPurify = purifier;
+  const fallback = mockBody([]);
+  rendering.render(fallback, { role: "assistant", text: answer });
+  assert.equal(fallback.textContent, answer, "Rich-text failure must preserve the complete answer");
+}
+
+console.log("页面 Codex 会话、观点快捷入口及安全富文本契约验证通过");

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "ContextSail",
   "short_name": "ContextSail",
-  "version": "2.26.0",
+  "version": "2.26.1",
   "minimum_chrome_version": "116",
   "description": "Local-first AI browser workspace. Clip web pages, organize sources on a canvas, and ask Codex or Claude Code with context.",
   "author": "ContextSail Contributors",
@@ -29,7 +29,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["app/core/i18n-en.js", "app/core/i18n-en-extended.js", "app/core/i18n.js", "app/content/content-codex.js"],
+      "js": ["app/core/i18n-en.js", "app/core/i18n-en-extended.js", "app/core/i18n.js", "vendor/markdown/marked.umd.js", "vendor/markdown/purify.min.js", "app/content/content-codex.js"],
       "run_at": "document_idle",
       "all_frames": false
     }
