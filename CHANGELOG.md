@@ -4,6 +4,13 @@ All notable changes to **ContextSail** are documented here.
 
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [2.26.2] - 2026-10-22
+
+### Fixed
+
+- Render AI-generated bold spans with extra whitespace or Chinese punctuation directly adjoining the following text, while preserving surrounding spacing and nested inline formatting
+- Leave inline code, fenced and indented code blocks, HTML code, escaped markers, and stored conversation source unchanged
+
 ## [2.26.1] - 2026-10-22
 
 ### Fixed

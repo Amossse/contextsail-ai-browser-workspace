@@ -482,7 +482,30 @@
     if (message.role !== "assistant") { body.textContent = text; return; }
     try {
       if (!DOMPurify.isSupported) throw new Error("Sanitizer unavailable");
-      body.innerHTML = DOMPurify.sanitize(marked.parse(text, { gfm: true, breaks: false, async: false }), {
+      const markdown = new marked.Marked({ gfm: true, breaks: false, async: false, extensions: [{
+        name: "looseStrong",
+        level: "inline",
+        start(source) { return source.indexOf("**"); },
+        tokenizer(source) {
+          // Repair AI-generated emphasis only in prose. Let Marked own code/escapes.
+          if (this.lexer.state.inRawBlock) return;
+          const match = /^\*\*(?!\*)([^\r\n]+?)\*\*(?!\*)/.exec(source);
+          if (!match || !match[1].trim()) return;
+          const padded = match[1] !== match[1].trim();
+          const cjkBoundary = /\p{Script=Han}/u.test(match[1]) && /[\p{P}\p{S}]$/u.test(match[1])
+            && /^[\p{L}\p{N}]/u.test(source.slice(match[0].length));
+          if (!padded && !cjkBoundary) return;
+          return {
+            type: "looseStrong", raw: match[0],
+            tokens: this.lexer.inlineTokens(match[1].trim()),
+            leading: match[1].match(/^\s*/)[0], trailing: match[1].match(/\s*$/)[0]
+          };
+        },
+        renderer(token) {
+          return `${token.leading}<strong>${this.parser.parseInline(token.tokens)}</strong>${token.trailing}`;
+        }
+      }] });
+      body.innerHTML = DOMPurify.sanitize(markdown.parse(text), {
         USE_PROFILES: { html: true },
         SANITIZE_NAMED_PROPS: true,
         // Render static HTML, not active documents or automatic remote resource loads.

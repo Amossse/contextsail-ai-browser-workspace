@@ -121,4 +121,30 @@ for (const purifier of [undefined, { isSupported: false }, { isSupported: true, 
   assert.equal(fallback.textContent, answer, "Rich-text failure must preserve the complete answer");
 }
 
+rendering.DOMPurify = { isSupported: true, sanitize: html => html };
+for (const [input, expected] of [
+  ["**核心立场（两句话）： **薄编排器", "<strong>核心立场（两句话）：</strong> 薄编排器"],
+  ["**核心立场（两句话）：**薄编排器", "<strong>核心立场（两句话）：</strong>薄编排器"],
+  ["**分析推断：**使用方希望减少等待", "<strong>分析推断：</strong>使用方希望减少等待"],
+  ["**中文（两句）**正文", "<strong>中文（两句）</strong>正文"],
+  ["前缀 ** 分析推断： **正文", "前缀  <strong>分析推断：</strong> 正文"],
+  ["**支持 *嵌套强调*： **正文", "<strong>支持 <em>嵌套强调</em>：</strong> 正文"],
+  ["**正常加粗**", "<strong>正常加粗</strong>"],
+  ["`**代码： **`", "<code>**代码： **</code>"],
+  ["```md\n**代码： **\n```", "<code class=\"language-md\">**代码： **\n</code>"],
+  ["~~~md\n**代码： **\n~~~", "<code class=\"language-md\">**代码： **\n</code>"],
+  ["    **代码： **", "<code>**代码： **\n</code>"],
+  ["<code>**代码： **</code>", "<code>**代码： **</code>"],
+  ["<code>**代码：**正文</code>", "<code>**代码：**正文</code>"],
+  ["\\*\\*文字： \\*\\*", "**文字： **"],
+  ["**跨行\n不修复 **", "**跨行\n不修复 **"],
+  ["**未闭合", "**未闭合"]
+]) {
+  const body = mockBody([]);
+  const message = { role: "assistant", text: input };
+  rendering.render(body, message);
+  assert(body.innerHTML.includes(expected), `Unexpected emphasis rendering: ${input}\n${body.innerHTML}`);
+  assert.equal(message.text, input, "Rendering must not change stored source text");
+}
+
 console.log("页面 Codex 会话、观点快捷入口及安全富文本契约验证通过");
