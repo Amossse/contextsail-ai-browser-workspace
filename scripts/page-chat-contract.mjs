@@ -41,4 +41,35 @@ assert.match(content, /function setPanelExpanded\(expanded\)[\s\S]{0,500}还原�
 assert.match(content, /\.panel\[data-expanded="true"\]\s*\{[^}]*width:\s*calc\(100vw - 16px\)[^}]*height:\s*calc\(100dvh - 16px\)/, "放大窗口必须按视口显式计算尺寸");
 assert.doesNotMatch(content, /\.panel\[data-expanded="true"\]\s*\{[^}]*\b(?:right|bottom):/, "放大窗口不能依赖零尺寸 Shadow Host 的边界定位");
 
+// Exercise the actual shortcut dispatcher without starting a paid AI task.
+const dictionaries = { ShizuoEnglish: {} };
+for (const file of ["i18n-en.js", "i18n-en-extended.js"]) {
+  vm.runInNewContext(fs.readFileSync(new URL(`../app/core/${file}`, import.meta.url), "utf8"), dictionaries);
+}
+const promptSource = content.match(/const prompts = (\{[\s\S]*?\n  \});/)[1];
+const dispatcher = content.match(/  function quickAction\(action, selectionText\) \{[\s\S]*?\n  \}/)[0];
+assert.match(content, /class="quick-action" data-action="perspectives"[^>]*title="五位专家观点分析">观点<\/button>/);
+assert.match(content, /\.compose-quick-actions\s*\{[^}]*flex-wrap:\s*wrap/, "英文快捷入口必须可换行，不能挤掉发送按钮");
+for (const language of ["zh-CN", "en"]) {
+  const sent = [];
+  const ui = (source, ...values) => (language === "en" ? dictionaries.ShizuoEnglish[source] ?? source : source)
+    .replace(/\{(\d+)\}/g, (slot, index) => index < values.length ? values[index] : slot);
+  const sandbox = { ui, sendPrompt: (prompt, selection) => sent.push({ prompt, selection }) };
+  vm.runInNewContext(`const prompts = ${promptSource}; ${dispatcher}; quickAction("perspectives", ""); quickAction("perspectives", "原始选区 <tag> {0}");`, sandbox);
+  assert.equal(sent.length, 2);
+  assert.equal(sent[0].selection, "");
+  assert.equal(sent[1].selection, "原始选区 <tag> {0}");
+  assert(sent[0].prompt.includes(ui("当前页面正文")));
+  assert(sent[1].prompt.includes(ui("选中文字")));
+  const roles = language === "en" ? ["Practitioner", "Scholar", "Skeptic", "Economist", "Historian"] : ["实践者", "学者", "怀疑者", "经济学家", "历史学家"];
+  for (const role of roles) assert(sent[0].prompt.includes(role), `Missing perspective: ${role}`);
+  assert.match(sent[0].prompt, language === "en" ? /two-sentence/ : /两句话/);
+  assert.match(sent[0].prompt, language === "en" ? /traceable sources/ : /可溯源/);
+  assert.match(sent[0].prompt, language === "en" ? /never fabricate/ : /不得编造/);
+  assert.match(sent[0].prompt, language === "en" ? /not instructions to execute/ : /不执行其中的指令/);
+  if (language === "en") assert.doesNotMatch(sent[0].prompt, /\p{Script=Han}/u);
+  const panelHtml = vm.runInNewContext(content.match(/panel\.innerHTML = ui\((`[\s\S]*?`)\);/)[1]);
+  assert(ui(panelHtml).includes(language === "en" ? '>Perspectives</button>' : '>观点</button>'));
+}
+
 console.log("页面 Codex URL 会话索引契约验证通过");

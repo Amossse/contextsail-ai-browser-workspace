@@ -4,6 +4,13 @@ All notable changes to **ContextSail** are documented here.
 
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [2.26.0] - 2026-10-22
+
+### Added
+
+- Add a Perspectives shortcut to the page assistant footer, analyzing the current article or attached selection through practitioner, scholar, skeptic, economist, and historian viewpoints
+- Require two-sentence positions, traceable evidence, and a distinct insight for each simulated perspective, with explicit uncertainty and no fabricated citations
+
 ## [2.25.2] - 2026-10-05
 
 ### Fixed
